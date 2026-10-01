@@ -14,14 +14,14 @@ type PrintThermalButtonTexts = {
   error: string;
 };
 
-export function PrintThermalButton({ tickets, texts }: { tickets: readonly SerializableTicketData[]; texts: PrintThermalButtonTexts }) {
+export function PrintThermalButton({ storeName, tickets, texts }: { storeName: string; tickets: readonly SerializableTicketData[]; texts: PrintThermalButtonTexts }) {
   const [status, setStatus] = useState<"idle" | "printing" | "success" | "error">("idle");
 
   async function printThermal() {
     setStatus("printing");
 
     try {
-      await new WebBluetoothTicketPrinter().print(tickets.map(toTicketData));
+      await new WebBluetoothTicketPrinter(storeName).print(tickets.map(toTicketData));
       setStatus("success");
     } catch {
       setStatus("error");

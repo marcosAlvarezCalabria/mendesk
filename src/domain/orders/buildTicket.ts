@@ -5,8 +5,6 @@ import { outstandingBalance } from "@/domain/orders/orderRules";
 import type { AlterationType } from "@/domain/values/AlterationType";
 import { Money } from "@/domain/values/Money";
 
-const CANONICAL_PANEL_URL = "https://panel.kokoatelier.ie";
-
 export type TicketData = {
   readonly orderNumber: string;
   readonly clientName: string;
@@ -20,7 +18,7 @@ export type TicketData = {
   readonly deepLinkUrl: string;
 };
 
-export function buildTicket(order: Order, garment: Garment): TicketData {
+export function buildTicket(order: Order, garment: Garment, panelBaseUrl: string): TicketData {
   const depositPaid = order.payments.filter(payment => payment.type === "deposit").reduce((total, payment) => total.add(payment.amount), Money.zero());
 
   return {
@@ -33,6 +31,6 @@ export function buildTicket(order: Order, garment: Garment): TicketData {
     depositPaid: depositPaid.toString(),
     outstanding: outstandingBalance(order).toString(),
     dueDate: order.dueDate,
-    deepLinkUrl: buildOrderDeepLink(order, CANONICAL_PANEL_URL),
+    deepLinkUrl: buildOrderDeepLink(order, panelBaseUrl),
   };
 }

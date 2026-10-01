@@ -10,12 +10,13 @@ describe("TicketPrintingPanel Ukrainian copy", () => {
         labels={{ client: "Клієнт", garment: "Виріб", alteration: "Переробка", measurements: "Мірки", due: "Термін", price: "Ціна", deposit: "Завдаток", outstanding: "До сплати" }}
         locale="uk"
         returnTo="/orders/260913-0007"
+        storeName="Demo Atelier"
         tickets={[{
           ticket: {
             orderNumber: "260913-0007", clientName: "Марія", garmentDescription: "Сукня",
             alterationType: "hem", measurements: null, price: "35.00", depositPaid: "10.00",
             outstanding: "25.00", dueDate: "2026-09-20T10:00:00.000Z",
-            deepLinkUrl: "https://panel.kokoatelier.ie/orders/260913-0007",
+            deepLinkUrl: "https://demo.mendesk.example/orders/260913-0007",
           },
           qrSvg: "<svg></svg>",
         }]}

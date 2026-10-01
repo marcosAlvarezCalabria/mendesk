@@ -17,6 +17,8 @@ export class BluetoothNotSupportedError extends Error {
 }
 
 export class WebBluetoothTicketPrinter implements TicketPrinter {
+  constructor(private readonly storeName: string) {}
+
   async print(
     tickets: readonly TicketData[],
     observer?: TicketPrintObserver,
@@ -39,7 +41,7 @@ export class WebBluetoothTicketPrinter implements TicketPrinter {
 
       for (const [ticketIndex, ticket] of tickets.entries()) {
         observer?.onTicketStarted?.(ticketIndex + 1, tickets.length);
-        const bytes = buildTicketBytes(ticket);
+        const bytes = buildTicketBytes(ticket, this.storeName);
 
         for (let offset = 0; offset < bytes.length; offset += BLE_WRITE_CHUNK_SIZE) {
           const chunk = bytes.slice(offset, offset + BLE_WRITE_CHUNK_SIZE);

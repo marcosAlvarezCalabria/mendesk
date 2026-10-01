@@ -7,20 +7,20 @@ import { PhoneNumber } from "@/domain/values/PhoneNumber";
 
 describe("buildReviewWhatsappUrl", () => {
   it("uses the active Ukrainian locale for a collected order", () => {
-    const url = buildReviewWhatsappUrl(makeOrder(OrderStatus.COLLECTED), "https://example.com/review", "uk");
+    const url = buildReviewWhatsappUrl(makeOrder(OrderStatus.COLLECTED), "https://example.com/review", "uk", "Demo Atelier");
 
     expect(readWhatsappMessage(url)).toContain("відгук");
   });
 
   it("returns no URL without a review URL or before collection", () => {
-    expect(buildReviewWhatsappUrl(makeOrder(OrderStatus.COLLECTED), undefined, "en")).toBeUndefined();
-    expect(buildReviewWhatsappUrl(makeOrder(OrderStatus.READY), "https://example.com/review", "en")).toBeUndefined();
+    expect(buildReviewWhatsappUrl(makeOrder(OrderStatus.COLLECTED), undefined, "en", "Demo Atelier")).toBeUndefined();
+    expect(buildReviewWhatsappUrl(makeOrder(OrderStatus.READY), "https://example.com/review", "en", "Demo Atelier")).toBeUndefined();
   });
 
   it("returns no URL for an anonymized client without a phone", () => {
     const order = makeOrder(OrderStatus.COLLECTED, null);
 
-    expect(buildReviewWhatsappUrl(order, "https://example.com/review", "en")).toBeUndefined();
+    expect(buildReviewWhatsappUrl(order, "https://example.com/review", "en", "Demo Atelier")).toBeUndefined();
   });
 });
 

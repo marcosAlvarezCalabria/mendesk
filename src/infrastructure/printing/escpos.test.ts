@@ -13,14 +13,17 @@ const baseTicket: TicketData = {
   depositPaid: "10.00",
   outstanding: "25.00",
   dueDate: new Date("2026-08-30T10:00:00.000Z"),
-  deepLinkUrl: "https://panel.kokoatelier.ie/orders/260824-0001",
+  deepLinkUrl: "https://demo.mendesk.example/orders/260824-0001",
 };
+
+const storeName = "Demo Atelier";
 
 describe("ESC/POS ticket formatting", () => {
   it("includes the economic contract and optional measurements", () => {
-    const text = decode(buildTicketBytes(baseTicket));
+    const text = decode(buildTicketBytes(baseTicket, storeName));
 
-    expect(text).toContain("Koko Atelier");
+    expect(text).toContain(storeName);
+    expect(text).not.toMatch(/Koko Atelier|Mendesk|Incandi|Incamdi/);
     expect(text).toContain("260824-0001");
     expect(text).toContain("Measurements: Shorten 4cm");
     expect(text).toContain("Deposit paid: EUR 10.00");
@@ -28,7 +31,7 @@ describe("ESC/POS ticket formatting", () => {
   });
 
   it("stores the exact canonical URL in one real QR Model 2 command and prints it", () => {
-    const bytes = buildTicketBytes(baseTicket);
+    const bytes = buildTicketBytes(baseTicket, storeName);
 
     expect(readQrPayloads(bytes)).toEqual([baseTicket.deepLinkUrl]);
     expect(countSequence(bytes, [0x1d, 0x28, 0x6b, 0x03, 0x00, 0x31, 0x51, 0x30])).toBe(1);
@@ -36,12 +39,12 @@ describe("ESC/POS ticket formatting", () => {
   });
 
   it("omits measurements cleanly when absent", () => {
-    expect(decode(buildTicketBytes({ ...baseTicket, measurements: null }))).not.toContain("Measurements:");
+    expect(decode(buildTicketBytes({ ...baseTicket, measurements: null }, storeName))).not.toContain("Measurements:");
   });
 
   it("prints and cuts once per ticket when formatting multiple tickets", () => {
-    const second = { ...baseTicket, orderNumber: "260824-0002", deepLinkUrl: "https://panel.kokoatelier.ie/orders/260824-0002" };
-    const bytes = buildTicketsBytes([baseTicket, second]);
+    const second = { ...baseTicket, orderNumber: "260824-0002", deepLinkUrl: "https://demo.mendesk.example/orders/260824-0002" };
+    const bytes = buildTicketsBytes([baseTicket, second], storeName);
 
     expect(readQrPayloads(bytes)).toEqual([baseTicket.deepLinkUrl, second.deepLinkUrl]);
     expect(countSequence(bytes, [0x1d, 0x56, 0x01])).toBe(2);
