@@ -1,0 +1,1 @@
+export const ANONYMIZED_CLIENT_NAME = "Deleted client";
