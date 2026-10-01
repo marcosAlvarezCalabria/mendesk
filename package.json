@@ -11,6 +11,11 @@
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
     "check": "pnpm run typecheck && pnpm run lint && pnpm run test",
+    "demo:env": "node --experimental-strip-types scripts/demo/create-env.ts",
+    "demo:up": "docker compose --env-file .env.demo -f infra/demo/compose.yaml up -d --wait",
+    "demo:status": "docker compose --env-file .env.demo -f infra/demo/compose.yaml ps",
+    "demo:logs": "docker compose --env-file .env.demo -f infra/demo/compose.yaml logs --tail 100",
+    "demo:down": "docker compose --env-file .env.demo -f infra/demo/compose.yaml down",
     "directus:r04:audit": "node --experimental-strip-types scripts/directus/r04-schema.ts --audit",
     "directus:r04:apply": "node --experimental-strip-types scripts/directus/r04-schema.ts --apply"
   },
