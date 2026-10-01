@@ -17,6 +17,7 @@ next-env.d.ts
 
 # environment files (never commit secrets or per-store configuration)
 .env*
+/.env.demo
 
 # deploy
 .vercel
