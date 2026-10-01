@@ -1,0 +1,37 @@
+{
+  "name": "mendesk",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "pnpm@9.12.0",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "check": "pnpm run typecheck && pnpm run lint && pnpm run test",
+    "directus:r04:audit": "node --experimental-strip-types scripts/directus/r04-schema.ts --audit",
+    "directus:r04:apply": "node --experimental-strip-types scripts/directus/r04-schema.ts --apply"
+  },
+  "dependencies": {
+    "@directus/sdk": "^25.0.0",
+    "next": "^16.3.1",
+    "qrcode": "^1.5.4",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.3.3",
+    "@types/node": "^24.3.0",
+    "@types/qrcode": "^1.5.6",
+    "@types/react": "^19.1.10",
+    "@types/react-dom": "^19.1.7",
+    "eslint": "^9.34.0",
+    "eslint-config-next": "^16.3.1",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^5.9.2",
+    "vitest": "^4.1.11"
+  },
+  "type": "module"
+}

@@ -1,0 +1,13 @@
+# Normalize all text to LF in the repository, regardless of checkout.
+* text=auto eol=lf
+
+# Binaries: never touch line endings.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.pdf binary
