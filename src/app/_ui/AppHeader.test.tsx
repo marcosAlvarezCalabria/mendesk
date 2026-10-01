@@ -8,6 +8,13 @@ vi.mock("@/app/_ui/LocaleToggle", () => ({ LocaleToggle: () => null }));
 import { AppHeader } from "@/app/_ui/AppHeader";
 
 describe("AppHeader", () => {
+  it("uses the configured shop as the primary header identity", async () => {
+    const html = renderToStaticMarkup(await AppHeader({ title: "Orders" }));
+
+    expect(html).toContain("Demo Atelier");
+    expect(html).not.toContain("Koko Atelier");
+  });
+
   it("presents Back as a visible bordered icon control", async () => {
     const html = renderToStaticMarkup(await AppHeader({
       backHref: "/orders",

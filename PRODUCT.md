@@ -30,6 +30,7 @@ Each shop owns an independent installation and data boundary. Mendesk provides t
 - WhatsApp communication remains semi-automatic: Mendesk prepares a message and the operator chooses whether to send it.
 - Koko Atelier is one independent installation and a functional reference, not a dependency or tenant.
 - A separate Directus demonstration installation will contain only fictional clients, garments, orders, payments and appointments.
+- The demonstration uses the real Mendesk application and workflows, not a separate marketing mockup.
 
 ## Capabilities and Constraints
 

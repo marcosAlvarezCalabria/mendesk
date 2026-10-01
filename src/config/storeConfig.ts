@@ -36,6 +36,8 @@ export type StoreConfig = Readonly<{
   }>;
 }>;
 
+export type StoreIdentity = StoreConfig["identity"];
+
 export class StoreConfigError extends Error {
   constructor(message: string) {
     super(message);

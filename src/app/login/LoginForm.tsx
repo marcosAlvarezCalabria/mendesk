@@ -5,6 +5,7 @@ import { useActionState } from "react";
 
 import { Icon } from "@/app/_ui/Icon";
 import { loginAction } from "@/app/login/actions";
+import type { StoreIdentity } from "@/config/storeConfig";
 
 const initialState = { error: null };
 
@@ -18,7 +19,7 @@ type LoginFormTexts = {
   error: string;
 };
 
-export function LoginForm({ nextPath, texts }: { nextPath: string; texts: LoginFormTexts }) {
+export function LoginForm({ identity, nextPath, texts }: { identity: StoreIdentity; nextPath: string; texts: LoginFormTexts }) {
   const [state, formAction, isPending] = useActionState(loginAction, initialState);
 
   return (
@@ -28,12 +29,12 @@ export function LoginForm({ nextPath, texts }: { nextPath: string; texts: LoginF
           <div className="mb-8 text-center">
             <div className="mx-auto flex size-40 items-center justify-center rounded-2xl bg-primary p-4">
               <Image
-                alt="Koko Atelier"
+                alt={identity.logo.alt}
                 className="h-full w-full object-contain"
                 height={142}
                 priority
                 sizes="160px"
-                src="/images/koko-atelier-logo.png"
+                src={identity.logo.src}
                 width={160}
               />
             </div>

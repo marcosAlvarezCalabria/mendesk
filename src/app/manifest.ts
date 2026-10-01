@@ -1,23 +1,19 @@
 import type { MetadataRoute } from "next";
+import { storeConfig } from "@/config/currentStore";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Koko Atelier",
-    short_name: "Koko",
+    name: storeConfig.identity.name,
+    short_name: storeConfig.identity.shortName,
     start_url: "/orders",
     display: "standalone",
     background_color: "#FBF9F5",
     theme_color: "#211D18",
     icons: [
       {
-        src: "/icons/koko-icon-192.png",
-        sizes: "192x192",
-        type: "image/png",
-      },
-      {
-        src: "/icons/koko-icon-512.png",
-        sizes: "512x512",
-        type: "image/png",
+        src: storeConfig.identity.logo.src,
+        sizes: "any",
+        type: "image/svg+xml",
       },
     ],
   };
