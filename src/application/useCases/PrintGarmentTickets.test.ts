@@ -15,7 +15,7 @@ describe("PrintGarmentTickets", () => {
   it("builds one economic ticket per garment", async () => {
     const order = makeOrder({ garments: [makeGarment({ id: "garment-1", description: "Blue dress", alterationType: "hem" }), makeGarment({ id: "garment-2", description: "Wool coat", alterationType: "sleeves" })] });
 
-    const tickets = await new PrintGarmentTickets(new FakeOrderRepository(order)).execute(order.orderNumber.value);
+    const tickets = await new PrintGarmentTickets(new FakeOrderRepository(order), "https://demo.mendesk.example").execute(order.orderNumber.value);
 
     expect(tickets).toHaveLength(2);
     expect(tickets[0]).toMatchObject({ orderNumber: "260819-0142", garmentDescription: "Blue dress", depositPaid: "10.00", outstanding: "40.00" });
@@ -23,12 +23,12 @@ describe("PrintGarmentTickets", () => {
   });
 
   it("always uses the canonical panel order link", async () => {
-    const [ticket] = await new PrintGarmentTickets(new FakeOrderRepository(makeOrder())).execute("260819-0142");
-    expect(ticket?.deepLinkUrl).toBe("https://panel.kokoatelier.ie/orders/260819-0142");
+    const [ticket] = await new PrintGarmentTickets(new FakeOrderRepository(makeOrder()), "https://demo.mendesk.example").execute("260819-0142");
+    expect(ticket?.deepLinkUrl).toBe("https://demo.mendesk.example/orders/260819-0142");
   });
 
   it("throws OrderNotFoundError when the order number does not exist", async () => {
-    await expect(new PrintGarmentTickets(new FakeOrderRepository(null)).execute("260819-9999")).rejects.toBeInstanceOf(OrderNotFoundError);
+    await expect(new PrintGarmentTickets(new FakeOrderRepository(null), "https://demo.mendesk.example").execute("260819-9999")).rejects.toBeInstanceOf(OrderNotFoundError);
   });
 });
 

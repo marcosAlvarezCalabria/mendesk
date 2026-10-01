@@ -15,7 +15,7 @@ const tickets = [
       depositPaid: "20.00",
       outstanding: "25.00",
       dueDate: "2026-09-20T00:00:00.000Z",
-      deepLinkUrl: "https://panel.kokoatelier.ie/orders/260913-0007",
+      deepLinkUrl: "https://demo.mendesk.example/orders/260913-0007",
     },
     qrSvg: "<svg aria-label=\"QR\"></svg>",
   },
@@ -30,7 +30,7 @@ const tickets = [
       depositPaid: "20.00",
       outstanding: "25.00",
       dueDate: "2026-09-20T00:00:00.000Z",
-      deepLinkUrl: "https://panel.kokoatelier.ie/orders/260913-0007",
+      deepLinkUrl: "https://demo.mendesk.example/orders/260913-0007",
     },
     qrSvg: "<svg aria-label=\"QR\"></svg>",
   },
@@ -43,6 +43,7 @@ describe("TicketPrintingPanel", () => {
         labels={{ client: "Client", garment: "Garment", alteration: "Alteration", measurements: "Measurements", due: "Due", price: "Price", deposit: "Deposit", outstanding: "Outstanding" }}
         locale="en"
         returnTo="/orders/260913-0007"
+        storeName="Demo Atelier"
         tickets={tickets}
       />,
     );
@@ -53,6 +54,8 @@ describe("TicketPrintingPanel", () => {
     expect(html.match(/Print one/g)).toHaveLength(2);
     expect(html).toContain("Print from browser");
     expect(html).toContain("Not connected");
+    expect(html).toContain("Demo Atelier");
+    expect(html).not.toMatch(/Koko Atelier|Mendesk|Incandi|Incamdi/);
   });
 
   it("keeps full ticket sheets out of the on-screen flow", () => {
@@ -61,6 +64,7 @@ describe("TicketPrintingPanel", () => {
         labels={{ client: "Client", garment: "Garment", alteration: "Alteration", measurements: "Measurements", due: "Due", price: "Price", deposit: "Deposit", outstanding: "Outstanding" }}
         locale="en"
         returnTo="/orders/260913-0007"
+        storeName="Demo Atelier"
         tickets={tickets}
       />,
     );
@@ -69,6 +73,6 @@ describe("TicketPrintingPanel", () => {
     expect(html).toContain("€45.00");
     expect(html).toContain("€20.00");
     expect(html).toContain("€25.00");
-    expect(html).not.toContain("https://panel.kokoatelier.ie/orders/260913-0007</p>");
+    expect(html).not.toContain("https://demo.mendesk.example/orders/260913-0007</p>");
   });
 });

@@ -12,7 +12,7 @@ describe("WebBluetoothTicketPrinter progress", () => {
     const server = { connected: true, getPrimaryService: vi.fn(async () => ({ getCharacteristic: vi.fn(async () => characteristic) })), disconnect: vi.fn() };
     vi.stubGlobal("navigator", { bluetooth: { requestDevice: vi.fn(async () => ({ gatt: { connect: vi.fn(async () => server) } })) } });
 
-    await new WebBluetoothTicketPrinter().print([ticket("1"), ticket("2")], {
+    await new WebBluetoothTicketPrinter("Demo Atelier").print([ticket("1"), ticket("2")], {
       onReady: () => { events.push("ready"); },
       onTicketStarted: (index, total) => events.push(`start:${index}/${total}`),
       onTicketPrinted: (index, total) => events.push(`done:${index}/${total}`),
@@ -23,5 +23,5 @@ describe("WebBluetoothTicketPrinter progress", () => {
 });
 
 function ticket(suffix: string): TicketData {
-  return { orderNumber: `260824-000${suffix}`, clientName: "Mary", garmentDescription: "Dress", alterationType: "hem", measurements: null, price: "35.00", depositPaid: "10.00", outstanding: "25.00", dueDate: new Date("2026-08-30T10:00:00.000Z"), deepLinkUrl: `https://panel.kokoatelier.ie/orders/260824-000${suffix}` };
+  return { orderNumber: `260824-000${suffix}`, clientName: "Mary", garmentDescription: "Dress", alterationType: "hem", measurements: null, price: "35.00", depositPaid: "10.00", outstanding: "25.00", dueDate: new Date("2026-08-30T10:00:00.000Z"), deepLinkUrl: `https://demo.mendesk.example/orders/260824-000${suffix}` };
 }

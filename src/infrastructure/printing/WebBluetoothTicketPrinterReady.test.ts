@@ -14,7 +14,7 @@ describe("WebBluetoothTicketPrinter ready state", () => {
     const server = { connected: true, getPrimaryService: vi.fn(async () => ({ getCharacteristic: vi.fn(async () => characteristic) })), disconnect: vi.fn() };
     vi.stubGlobal("navigator", { bluetooth: { requestDevice: vi.fn(async () => ({ gatt: { connect: vi.fn(async () => server) } })) } });
 
-    const printing = new WebBluetoothTicketPrinter().print([ticket], {
+    const printing = new WebBluetoothTicketPrinter("Demo Atelier").print([ticket], {
       onReady: async () => {
         events.push("ready");
         await ready;
@@ -39,5 +39,5 @@ const ticket: TicketData = {
   depositPaid: "10.00",
   outstanding: "25.00",
   dueDate: new Date("2026-09-20T10:00:00.000Z"),
-  deepLinkUrl: "https://panel.kokoatelier.ie/orders/260913-0007",
+  deepLinkUrl: "https://demo.mendesk.example/orders/260913-0007",
 };

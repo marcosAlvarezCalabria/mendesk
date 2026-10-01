@@ -7,11 +7,12 @@ export function buildReviewWhatsappUrl(
   order: Order,
   reviewUrl: string | undefined,
   locale: Locale,
+  storeName: string,
 ): string | undefined {
   if (order.status.value !== "collected" || !reviewUrl || !order.client.phone) {
     return undefined;
   }
 
-  const message = buildReviewRequestMessage({ clientName: order.client.name, reviewUrl, locale });
+  const message = buildReviewRequestMessage({ clientName: order.client.name, reviewUrl, locale, storeName });
   return buildWhatsappUrl(order.client.phone, message);
 }

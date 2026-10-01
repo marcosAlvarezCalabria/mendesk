@@ -7,6 +7,7 @@ import { safeOrderDetailReturnTo, withReturnTo } from "@/app/routeContext";
 import { ReadSyncMarker } from "@/app/sync/ReadSyncMarker";
 import { PrintGarmentTickets } from "@/application/useCases/PrintGarmentTickets";
 import { makeOrderRepository } from "@/composition/directus";
+import { storeConfig } from "@/config/currentStore";
 import { OrderNotFoundError } from "@/domain/errors/OrderNotFoundError";
 import type { TicketData } from "@/domain/orders/buildTicket";
 import { getSessionToken } from "@/infrastructure/auth/sessionCookie";
@@ -57,6 +58,7 @@ export default async function OrderTicketsPage({ params, searchParams }: Tickets
           }}
           locale={locale}
           returnTo={returnTo}
+          storeName={storeConfig.identity.name}
           tickets={ticketViews}
         />
       </div>
@@ -70,7 +72,7 @@ async function getTicketsOrNotFound(
   currentHref: string,
 ): Promise<TicketData[]> {
   try {
-    return await new PrintGarmentTickets(makeOrderRepository(token)).execute(orderNumber);
+    return await new PrintGarmentTickets(makeOrderRepository(token), storeConfig.urls.panelBaseUrl).execute(orderNumber);
   } catch (error) {
     if (error instanceof OrderNotFoundError) {
       notFound();

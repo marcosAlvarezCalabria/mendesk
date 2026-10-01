@@ -16,9 +16,9 @@ describe("WebBluetoothTicketPrinter", () => {
     const device = { gatt: { connect: vi.fn(async () => server) } };
     vi.stubGlobal("navigator", { bluetooth: { requestDevice: vi.fn(async () => device) } });
 
-    await new WebBluetoothTicketPrinter().print([ticket]);
+    await new WebBluetoothTicketPrinter("Demo Atelier").print([ticket]);
 
-    expect(concat(writes)).toEqual(buildTicketsBytes([ticket]));
+    expect(concat(writes)).toEqual(buildTicketsBytes([ticket], "Demo Atelier"));
     expect(writes.every(chunk => chunk.length <= 20)).toBe(true);
     expect(disconnect).toHaveBeenCalledOnce();
   });
@@ -34,7 +34,7 @@ const ticket: TicketData = {
   depositPaid: "10.00",
   outstanding: "25.00",
   dueDate: new Date("2026-08-30T10:00:00.000Z"),
-  deepLinkUrl: "https://panel.kokoatelier.ie/orders/260824-0001",
+  deepLinkUrl: "https://demo.mendesk.example/orders/260824-0001",
 };
 
 function concat(chunks: Uint8Array[]): Uint8Array {

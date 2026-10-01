@@ -90,11 +90,13 @@ export function TicketPrintingPanel({
   labels,
   locale,
   returnTo,
+  storeName,
 }: {
   tickets: readonly TicketView[];
   labels: TicketLabels;
   locale: Locale;
   returnTo: string;
+  storeName: string;
 }) {
   const text = copy[locale];
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -116,7 +118,7 @@ export function TicketPrintingPanel({
     setState((current) => startTicketJob(current, indexes));
 
     try {
-      await new WebBluetoothTicketPrinter().print(
+      await new WebBluetoothTicketPrinter(storeName).print(
         indexes.map((index) => toTicketData(tickets[index].ticket)),
         {
           onReady: async () => {
@@ -156,7 +158,7 @@ export function TicketPrintingPanel({
       <header className="mb-4 flex items-center justify-between gap-3 print:hidden">
         <div className="min-w-0">
           <p className="font-wordmark text-[1.0625rem] font-medium leading-none text-secondary">
-            Koko Atelier
+            {storeName}
           </p>
           <h1 className="truncate text-xl font-extrabold text-on-surface">{text.title}</h1>
         </div>
@@ -263,6 +265,7 @@ export function TicketPrintingPanel({
                 locale={locale}
                 qrSvg={qrSvg}
                 selected={state.selected[index]}
+                storeName={storeName}
                 ticket={ticket}
               />
             ))}
@@ -312,19 +315,21 @@ function TicketCard({
   labels,
   locale,
   selected,
+  storeName,
 }: {
   ticket: SerializableTicketData;
   qrSvg: string;
   labels: TicketLabels;
   locale: Locale;
   selected: boolean;
+  storeName: string;
 }) {
   if (!selected) return null;
 
   return (
     <article className="mx-auto w-full max-w-[78mm] break-after-page overflow-hidden bg-white px-4 py-5 text-black last:break-after-auto">
       <div className="text-center">
-        <p className="text-lg font-bold">Koko Atelier</p>
+        <p className="text-lg font-bold">{storeName}</p>
         <p className="mt-1 text-sm font-semibold">{ticket.orderNumber}</p>
       </div>
 

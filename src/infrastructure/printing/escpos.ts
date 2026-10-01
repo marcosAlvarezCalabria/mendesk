@@ -1,6 +1,5 @@
 import type { TicketData } from "@/domain/orders/buildTicket";
 
-const BUSINESS_NAME = "Koko Atelier";
 const INIT = [0x1b, 0x40] as const;
 const ALIGN_CENTER = [0x1b, 0x61, 0x01] as const;
 const ALIGN_LEFT = [0x1b, 0x61, 0x00] as const;
@@ -11,9 +10,9 @@ const QR_PRINT = [0x1d, 0x28, 0x6b, 0x03, 0x00, 0x31, 0x51, 0x30] as const;
 const CUT_PARTIAL = [0x1d, 0x56, 0x01] as const;
 const encoder = new TextEncoder();
 
-export function buildTicketBytes(ticket: TicketData): Uint8Array {
+export function buildTicketBytes(ticket: TicketData, storeName: string): Uint8Array {
   const lines = [
-    BUSINESS_NAME,
+    storeName,
     ticket.orderNumber,
     "",
     `Client: ${ticket.clientName}`,
@@ -37,8 +36,8 @@ export function buildTicketBytes(ticket: TicketData): Uint8Array {
   ]);
 }
 
-export function buildTicketsBytes(tickets: readonly TicketData[]): Uint8Array {
-  return concatBytes(tickets.map(ticket => buildTicketBytes(ticket)));
+export function buildTicketsBytes(tickets: readonly TicketData[], storeName: string): Uint8Array {
+  return concatBytes(tickets.map(ticket => buildTicketBytes(ticket, storeName)));
 }
 
 function buildQrCode(payload: string): Uint8Array[] {

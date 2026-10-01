@@ -34,6 +34,7 @@ import { availableStatusActions } from "@/app/orders/[orderNumber]/statusActions
 import { garmentActionRowClassName, orderBalanceView, orderSummaryClassName } from "@/app/orders/[orderNumber]/orderDetailView";
 import { GetOrder } from "@/application/useCases/GetOrder";
 import { makeOrderRepository, makePhotoStorage } from "@/composition/directus";
+import { storeConfig } from "@/config/currentStore";
 import type { Garment } from "@/domain/entities/Garment";
 import type { Order } from "@/domain/entities/Order";
 import type { Payment } from "@/domain/entities/Payment";
@@ -72,9 +73,9 @@ export default async function OrderDetailPage({ params, searchParams }: OrderDet
   const editable = canEditOrder(order);
   const statusActions = availableStatusActions(order);
   const primaryStatusActions = statusActions.filter((action) => action === "ready");
-  const reviewWhatsappUrl = buildReviewWhatsappUrl(order, process.env.GOOGLE_REVIEW_URL, locale);
+  const reviewWhatsappUrl = buildReviewWhatsappUrl(order, storeConfig.urls.reviewUrl, locale, storeConfig.identity.name);
   const readyWhatsappUrl = order.status.value === "ready" && order.client.phone
-    ? buildWhatsappUrl(order.client.phone, buildReadyMessage({ clientName: order.client.name, locale }))
+    ? buildWhatsappUrl(order.client.phone, buildReadyMessage({ clientName: order.client.name, locale, storeName: storeConfig.identity.name }))
     : undefined;
   const balance = outstandingBalance(order);
   const paymentDefaults = paymentFormDefaults(order.status.value, balance);

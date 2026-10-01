@@ -14,7 +14,7 @@ describe("buildTicket", () => {
     const order = makeOrder();
     const garment = makeGarment({ measurements: "Hem 4cm" });
 
-    expect(buildTicket(order, garment)).toEqual({
+    expect(buildTicket(order, garment, "https://demo.mendesk.example")).toEqual({
       orderNumber: order.orderNumber.value,
       clientName: order.client.name,
       garmentDescription: garment.description,
@@ -24,18 +24,18 @@ describe("buildTicket", () => {
       depositPaid: "10.00",
       outstanding: "15.00",
       dueDate: order.dueDate,
-      deepLinkUrl: "https://panel.kokoatelier.ie/orders/260819-0142",
+      deepLinkUrl: "https://demo.mendesk.example/orders/260819-0142",
     });
   });
 
   it("uses null for absent measurements", () => {
-    expect(buildTicket(makeOrder(), makeGarment()).measurements).toBeNull();
+    expect(buildTicket(makeOrder(), makeGarment(), "https://demo.mendesk.example").measurements).toBeNull();
   });
 
   it("counts only deposit payments as the paid deposit while all payments reduce Outstanding", () => {
     const order = makeOrder({ payments: [payment("deposit", 8), payment("final", 5)] });
 
-    const ticket = buildTicket(order, makeGarment());
+    const ticket = buildTicket(order, makeGarment(), "https://demo.mendesk.example");
 
     expect(ticket.depositPaid).toBe("8.00");
     expect(ticket.outstanding).toBe("12.00");
