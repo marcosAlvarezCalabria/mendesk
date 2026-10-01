@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title description">
+  <title id="title">Demo Atelier</title>
+  <desc id="description">A needle passing through a measured line of stitches.</desc>
+  <rect width="128" height="128" rx="24" fill="#211d18"/>
+  <path d="M22 86h84" fill="none" stroke="#f4b942" stroke-linecap="round" stroke-width="8" stroke-dasharray="4 14"/>
+  <path d="M36 66c14-25 42-32 59-14 11 12 7 28-7 36-16 9-38 3-45-13" fill="none" stroke="#fbf9f5" stroke-linecap="round" stroke-width="7"/>
+  <path d="m87 30 15 15-33 33-18 4 4-18 32-34Z" fill="#f4b942" stroke="#fbf9f5" stroke-linejoin="round" stroke-width="5"/>
+  <circle cx="93" cy="39" r="3" fill="#211d18"/>
+</svg>

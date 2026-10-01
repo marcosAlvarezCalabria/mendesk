@@ -67,7 +67,7 @@ export const uk = {
   "error.description": "Не вдалося завантажити цю сторінку. Перевірте підключення та спробуйте ще раз.",
   "error.tryAgain": "Спробувати ще раз",
   "error.backToOrders": "Назад до замовлень",
-  "dashboard.title": "Панель Koko Atelier",
+  "dashboard.title": "Панель {storeName}",
 
   "alterations.hem": "Підгин",
   "alterations.waist": "Талія",
@@ -91,7 +91,7 @@ export const uk = {
   "kiosk.subtitle": "Введіть ім'я та номер WhatsApp, щоб ми могли зв'язатися з вами щодо переробок.",
   "kiosk.name": "Ім'я",
   "kiosk.phone": "Телефон",
-  "kiosk.gdpr": "Я погоджуюся, що Koko Atelier може зберігати мої дані та зв'язуватися зі мною щодо цього замовлення.",
+  "kiosk.gdpr": "Я погоджуюся, що {storeName} може зберігати мої дані та зв'язуватися зі мною щодо цього замовлення.",
   "kiosk.submit": "Продовжити",
   "kiosk.submitting": "Збереження",
   "kiosk.errors.consent": "Прийміть згоду на конфіденційність, щоб продовжити.",

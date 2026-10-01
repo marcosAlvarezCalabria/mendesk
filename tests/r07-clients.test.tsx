@@ -6,6 +6,7 @@ vi.mock("@/app/_ui/LocaleToggle", () => ({ LocaleToggle: () => null }));
 vi.mock("react", async original => ({ ...await original<typeof import("react")>(), useEffect: () => {}, useRef: () => ({ current: null }) }));
 import { HeaderUtilitiesMenu } from "@/app/_ui/HeaderUtilitiesMenu";
 import { AppShell } from "@/app/_ui/AppShell";
+const identity = { name: "Demo Atelier", shortName: "Demo", logo: { src: "/store/demo-atelier-mark.svg", alt: "Demo Atelier" } };
 type Tree = ReactElement<{ children?: unknown; action?: () => Promise<void> }>;
 function findForm(node: unknown): Tree | undefined {
   if (Array.isArray(node)) {
@@ -24,7 +25,7 @@ describe("client recovery logout wiring", () => {
     const removeItem = vi.fn(); vi.stubGlobal("window", { sessionStorage: { removeItem } });
     const logoutAction = vi.fn(async () => { expect(removeItem).toHaveBeenCalledWith("koko:client-registration:recovery:v1"); });
     const tree = surface === "header" ? HeaderUtilitiesMenu({ labels: { more: "More", logout: "Log out" }, logoutAction })
-      : AppShell({ children: null, currentLocale: "en", logoutAction, labels: { mainNavigation: "Nav", language: "Language", orders: "Orders", add: "New", clients: "Clients", appointments: "Agenda", stats: "Stats", logout: "Log out" } });
+      : AppShell({ children: null, currentLocale: "en", identity, logoutAction, labels: { mainNavigation: "Nav", language: "Language", orders: "Orders", add: "New", clients: "Clients", appointments: "Agenda", stats: "Stats", logout: "Log out" } });
     await findForm(tree)!.props.action!(); expect(logoutAction).toHaveBeenCalledTimes(1);
   });
 });

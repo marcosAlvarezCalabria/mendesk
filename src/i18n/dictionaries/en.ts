@@ -67,7 +67,7 @@ export const en = {
   "error.description": "We couldn't load this page. Check your connection and try again.",
   "error.tryAgain": "Try again",
   "error.backToOrders": "Back to orders",
-  "dashboard.title": "Koko Atelier Panel",
+  "dashboard.title": "{storeName} dashboard",
 
   "alterations.hem": "Hem",
   "alterations.waist": "Waist",
@@ -91,7 +91,7 @@ export const en = {
   "kiosk.subtitle": "Enter your name and WhatsApp number so we can contact you about your alterations.",
   "kiosk.name": "Name",
   "kiosk.phone": "Phone",
-  "kiosk.gdpr": "I agree that Koko Atelier can store my details and contact me about this order.",
+  "kiosk.gdpr": "I agree that {storeName} can store my details and contact me about this order.",
   "kiosk.submit": "Continue",
   "kiosk.submitting": "Saving",
   "kiosk.errors.consent": "Accept the privacy consent to continue.",

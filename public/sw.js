@@ -1,6 +1,6 @@
 const CACHE_PREFIX = "koko-pwa-shell-";
 const CACHE_NAME = `${CACHE_PREFIX}v2`;
-const SHELL_URLS = ["/offline", "/icons/koko-icon-192.png", "/icons/koko-icon-512.png"];
+const SHELL_URLS = ["/offline", "/store/demo-atelier-mark.svg"];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(

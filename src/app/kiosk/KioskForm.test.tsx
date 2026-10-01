@@ -12,7 +12,7 @@ import { KioskForm } from "@/app/kiosk/KioskForm";
 describe("KioskForm offline", () => {
   it("keeps the clean intake form visible but blocks sending without a connection", () => {
     const html = renderToStaticMarkup(
-      <KioskForm texts={{
+      <KioskForm storeName="Demo Atelier" texts={{
         successTitle: "Thank you!", successSubtitle: "You're registered.", registerAnother: "Register another",
         title: "Client details", subtitle: "Enter your details.", name: "Name", phone: "Phone",
         gdpr: "Privacy consent", submit: "Continue", submitting: "Saving",
@@ -29,5 +29,7 @@ describe("KioskForm offline", () => {
     expect(html).not.toContain("Clients");
     expect(html).toContain('name="gdpr"');
     expect(html).toContain('required=""');
+    expect(html).toContain("Demo Atelier");
+    expect(html).not.toContain("Koko Atelier");
   });
 });

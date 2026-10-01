@@ -8,12 +8,14 @@ import { logoutAction } from "@/app/dashboard/actions";
 import { dictionaries } from "@/i18n/dictionaries";
 import { getLocale } from "@/i18n/getLocale";
 import { t } from "@/i18n/t";
+import { productConfig } from "@/config/productConfig";
+import { storeConfig } from "@/config/currentStore";
 
 export const metadata: Metadata = {
-  title: "Koko Atelier Panel",
-  description: "Private management panel for Koko Atelier Galway.",
+  title: `${storeConfig.identity.name} · ${productConfig.name}`,
+  description: `Private workshop management for ${storeConfig.identity.name}.`,
   manifest: "/manifest.webmanifest",
-  appleWebApp: { capable: true, title: "Koko", statusBarStyle: "default" },
+  appleWebApp: { capable: true, title: storeConfig.identity.shortName, statusBarStyle: "default" },
 };
 
 export const viewport: Viewport = {
@@ -54,6 +56,7 @@ export default async function RootLayout({
         <LegacyPinStorageCleanup />
         <AppShell
           currentLocale={locale}
+          identity={storeConfig.identity}
           labels={{
             mainNavigation: t(dict, "nav.mainNavigation"),
             language: t(dict, "nav.language"),

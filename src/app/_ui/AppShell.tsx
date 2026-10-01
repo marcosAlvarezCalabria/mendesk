@@ -12,6 +12,7 @@ import { activeNavigationItem, buildNewOrderHref, isShellPath, shouldShowMobileN
 import type { Locale } from "@/i18n/locale";
 import { OrderSyncProvider } from "@/app/sync/OrderSyncProvider";
 import { clearClientRegistrationRecovery } from "@/app/clients/new/clientRegistrationRecovery";
+import type { StoreIdentity } from "@/config/storeConfig";
 
 type AppShellLabels = {
   mainNavigation: string;
@@ -27,6 +28,7 @@ type AppShellLabels = {
 type AppShellProps = {
   children: ReactNode;
   currentLocale: Locale;
+  identity: StoreIdentity;
   labels: AppShellLabels;
   logoutAction: () => Promise<void>;
 };
@@ -38,7 +40,7 @@ type NavigationLink = {
   label: string;
 };
 
-export function AppShell({ children, currentLocale, labels, logoutAction }: AppShellProps) {
+export function AppShell({ children, currentLocale, identity, labels, logoutAction }: AppShellProps) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const newOrderHref = buildNewOrderHref(pathname, searchParams.toString());
@@ -52,7 +54,7 @@ export function AppShell({ children, currentLocale, labels, logoutAction }: AppS
   return (
     <div className="min-h-screen w-full max-w-full overflow-x-hidden overflow-x-clip bg-background md:pl-20 lg:pl-60 print:pl-0">
     <OrderSyncProvider locale={currentLocale}>
-      <DesktopNavigation currentLocale={currentLocale} labels={labels} logoutAction={logoutAction} newOrderHref={newOrderHref} pathname={pathname} />
+      <DesktopNavigation currentLocale={currentLocale} identity={identity} labels={labels} logoutAction={logoutAction} newOrderHref={newOrderHref} pathname={pathname} />
       <div className={cx("min-w-0 max-w-full overflow-x-hidden overflow-x-clip", showMobileNavigation ? "pb-[calc(4.25rem+env(safe-area-inset-bottom))] md:pb-0 print:pb-0" : undefined)}>{children}</div>
       {showMobileNavigation ? <MobileNavigation labels={labels} newOrderHref={newOrderHref} pathname={pathname} /> : null}
     </OrderSyncProvider>
@@ -62,6 +64,7 @@ export function AppShell({ children, currentLocale, labels, logoutAction }: AppS
 
 function DesktopNavigation({
   currentLocale,
+  identity,
   labels,
   logoutAction,
   newOrderHref,
@@ -78,14 +81,14 @@ function DesktopNavigation({
 
   return (
     <aside className="fixed inset-y-0 left-0 z-40 hidden w-20 flex-col border-r border-outline-variant bg-surface-container-lowest px-2 pb-[max(1rem,env(safe-area-inset-bottom))] pt-[max(1rem,env(safe-area-inset-top))] md:flex lg:w-60 lg:px-3 print:hidden">
-      <Link aria-label="Koko Atelier" className="flex min-h-20 items-center justify-center rounded-xl bg-primary p-1 focus:outline-none focus:ring-2 focus:ring-secondary focus:ring-offset-2 lg:min-h-28 lg:p-3" href="/orders">
+      <Link aria-label={identity.name} className="flex min-h-20 items-center justify-center rounded-xl bg-primary p-1 focus:outline-none focus:ring-2 focus:ring-secondary focus:ring-offset-2 lg:min-h-28 lg:p-3" href="/orders">
         <Image
           alt=""
           className="h-14 w-14 object-contain lg:h-20 lg:w-40"
           height={142}
           priority
           sizes="(min-width: 1024px) 160px, 72px"
-          src="/images/koko-atelier-logo.png"
+          src={identity.logo.src}
           width={160}
         />
       </Link>

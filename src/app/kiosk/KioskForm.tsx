@@ -23,7 +23,7 @@ type KioskFormTexts = {
   errors: Record<IntakeError, string>;
 };
 
-export function KioskForm({ texts }: { texts: KioskFormTexts }) {
+export function KioskForm({ storeName, texts }: { storeName: string; texts: KioskFormTexts }) {
   const [state, formAction, isPending] = useActionState(intakeAction, initialState);
   const nameRef = useRef<HTMLInputElement>(null);
   const phoneRef = useRef<HTMLInputElement>(null);
@@ -44,7 +44,7 @@ export function KioskForm({ texts }: { texts: KioskFormTexts }) {
     return (
       <main className="flex min-h-screen items-center justify-center bg-background px-5 py-10 text-on-surface">
         <section className="w-full max-w-md rounded-[10px] border border-outline-variant bg-surface-container-lowest p-7 text-center shadow-sm sm:p-8">
-          <p className="font-wordmark text-wordmark text-secondary">Koko Atelier</p>
+          <p className="font-wordmark text-wordmark text-secondary">{storeName}</p>
           <h1 className="mt-4 text-headline-lg text-on-surface">{texts.successTitle}</h1>
           <p className="mt-3 text-body-md text-on-surface-variant">{texts.successSubtitle}</p>
           <a
@@ -62,7 +62,7 @@ export function KioskForm({ texts }: { texts: KioskFormTexts }) {
     <main className="flex min-h-screen items-center justify-center bg-background px-4 py-7 text-on-surface sm:px-5">
       <section className="w-full max-w-md rounded-[10px] border border-outline-variant bg-surface-container-lowest p-5 shadow-sm sm:p-7">
         <div className="mb-6">
-          <p className="font-wordmark text-wordmark text-secondary">Koko Atelier</p>
+          <p className="font-wordmark text-wordmark text-secondary">{storeName}</p>
           <h1 className="mt-4 text-headline-lg text-on-surface">{texts.title}</h1>
           <p className="mt-2 text-body-md text-on-surface-variant">{texts.subtitle}</p>
         </div>

@@ -26,6 +26,8 @@ Mendesk keeps product identity separate from store identity. Each deployed shop 
 
 No real environment file is committed. Deployment secrets and Directus connection details remain outside Git.
 
+When no installation values are present, the application uses the visibly fictional `Demo Atelier` profile. This keeps local builds and demonstrations functional while making a missing real-store configuration obvious.
+
 ## Demonstration installation
 
 The planned demo will use a dedicated Directus instance and fictional records only. Its configuration must use a neutral fictional shop identity until a real demonstration brand is approved. It must never point at Koko Atelier infrastructure, users, files or customer data.

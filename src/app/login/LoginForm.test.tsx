@@ -20,11 +20,12 @@ const texts = {
 };
 
 describe("LoginForm", () => {
-  it("shows the Koko Atelier logo on a dark contrast surface", () => {
-    const html = renderToStaticMarkup(<LoginForm nextPath="/orders" texts={texts} />);
+  it("shows the configured shop logo on a dark contrast surface", () => {
+    const identity = { name: "Demo Atelier", shortName: "Demo", logo: { src: "/store/demo-atelier-mark.svg", alt: "Demo Atelier" } };
+    const html = renderToStaticMarkup(<LoginForm identity={identity} nextPath="/orders" texts={texts} />);
 
-    expect(html).toContain("koko-atelier-logo.png");
-    expect(html).toContain('alt="Koko Atelier"');
+    expect(html).toContain("demo-atelier-mark.svg");
+    expect(html).toContain('alt="Demo Atelier"');
     expect(html).toContain("rounded-2xl bg-primary");
     expect(html).not.toContain("font-wordmark text-wordmark");
   });
