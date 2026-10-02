@@ -4,7 +4,7 @@ Mendesk keeps product identity separate from store identity. Each deployed shop 
 
 ## Product configuration
 
-`src/config/productConfig.ts` contains stable Mendesk product identity. The maker name and internal attribution remain `null` until the official `Incandi`/`Incamdi` spelling is confirmed. Customer-facing attribution is explicitly disabled.
+`src/config/productConfig.ts` contains stable Mendesk product identity. The official maker spelling is confirmed as `Incamdi`. The current maker name and internal attribution remain `null` until the discreet in-panel signature is implemented and reviewed. Customer-facing attribution remains explicitly disabled.
 
 ## Store configuration contract
 

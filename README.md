@@ -16,6 +16,8 @@ No environment file, credential, customer data, upload, log, cache or build outp
 
 The frontend has a credential-free, installation-isolated container package documented in [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md). Public access requires a separate HTTPS reverse-proxy configuration for the chosen installation hostname.
 
+The complete repeatable shop onboarding, deployment, validation and rollback process is documented in Spanish in [docs/CLIENT_INSTALLATION_RUNBOOK.md](docs/CLIENT_INSTALLATION_RUNBOOK.md).
+
 ## Current migration state
 
 Mendesk has an independent baseline, typed installation identity and configurable customer-facing store branding. The local demonstration runtime is intended for development only and is not a production deployment.
