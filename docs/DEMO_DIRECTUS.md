@@ -24,6 +24,22 @@ DIRECTUS_URL=http://localhost:8055
 
 Application login will become functional after the schema, roles and fictional demonstration users are provisioned in the next changes.
 
+## Provision the versioned base schema
+
+The base schema is derived from Mendesk's application contracts, not from customer data or a database dump. It creates the `clients`, `orders`, `garments`, `payments`, `appointments`, `order_sequences` and singleton `shop_settings` collections.
+
+Set `DIRECTUS_URL` and `DIRECTUS_ADMIN_TOKEN` in your shell, then run:
+
+```text
+pnpm directus:schema:audit
+pnpm directus:schema:apply
+pnpm directus:schema:audit
+```
+
+The audit command is read-only. Apply refuses to write when an existing field has an incompatible type and verifies the complete schema after provisioning. Plain HTTP is accepted only for loopback URLs; a remote Directus URL must use HTTPS.
+
+This step does not create roles, users or demonstration records. Those remain separate provisioning changes so access control and fictional content can be reviewed independently.
+
 ## Stop safely
 
 Run `pnpm demo:down`. This stops the containers but retains the named volumes and their data. No reset or volume-deletion command is provided because deleting the database should always be a deliberate manual operation.
