@@ -89,12 +89,12 @@ export const baseFields: readonly BaseFieldDefinition[] = [
   field("payments", "idempotency_key", "uuid", true, { unique: true }),
   field("payments", "type", "string", false, {
     interface: "select-dropdown",
-    options: statusChoices(["deposit", "balance", "refund"]),
+    options: statusChoices(["deposit", "final"]),
   }),
   field("payments", "amount", "decimal", false, { interface: "input" }),
   field("payments", "method", "string", false, {
     interface: "select-dropdown",
-    options: statusChoices(["cash", "card", "bank_transfer", "other"]),
+    options: statusChoices(["cash", "card"]),
   }),
   createdAt("payments"),
 

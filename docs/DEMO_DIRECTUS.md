@@ -68,6 +68,18 @@ pnpm directus:user:audit
 
 The commands require `DEMO_STAFF_EMAIL`; apply additionally requires `DEMO_STAFF_PASSWORD`. Do not place either value in a tracked file or in command-line arguments. The provisioner creates only a missing account, assigns `Mendesk Demo Staff`, and never prints credentials. If that email already belongs to an inactive account or another role, it stops without changing the user. Re-running apply does not reset the password.
 
+## Load fictional demonstration records
+
+Choose the calendar date around which the demonstration should look active and expose it as `DEMO_SEED_DATE` in `YYYY-MM-DD` format. Then run:
+
+```text
+pnpm directus:seed:audit
+pnpm directus:seed:apply
+pnpm directus:seed:audit
+```
+
+The deterministic fixture contains 24 synthetic clients, 36 orders, their garments and payments, plus 16 appointments spanning past and future states. It contains no copied customer details or photographs. Names and telephone numbers are generated fixtures and must never be used for real messaging. The provisioner creates only missing records with Mendesk-owned deterministic IDs; it never updates or deletes existing records.
+
 ## Stop safely
 
 Run `pnpm demo:down`. This stops the containers but retains the named volumes and their data. No reset or volume-deletion command is provided because deleting the database should always be a deliberate manual operation.
