@@ -7,7 +7,6 @@ const sdk = vi.hoisted(() => ({
   request: vi.fn(),
   readSingleton: vi.fn((collection: string) => ({ operation: "read", collection })),
   updateSingleton: vi.fn((collection: string, payload: unknown) => ({ operation: "update", collection, payload })),
-  createItem: vi.fn((collection: string, payload: unknown) => ({ operation: "create", collection, payload })),
 }));
 
 vi.mock("@directus/sdk", () => ({
@@ -15,7 +14,6 @@ vi.mock("@directus/sdk", () => ({
     const client = { with: () => client, request: sdk.request };
     return client;
   },
-  createItem: sdk.createItem,
   readSingleton: sdk.readSingleton,
   rest: () => ({}),
   staticToken: () => ({}),
@@ -54,14 +52,13 @@ describe("DirectusShopProfileRepository", () => {
     vi.clearAllMocks();
   });
 
-  it("creates a singleton with the required installation fields when Directus returns an empty virtual record", async () => {
+  it("initializes a singleton with the required installation fields when Directus returns an empty virtual record", async () => {
     sdk.request.mockResolvedValueOnce({ id: null }).mockResolvedValueOnce({ id: 1 });
     const repository = new DirectusShopProfileRepository("https://directus.example", "token", baseline);
 
     await repository.complete(profile);
 
-    expect(sdk.updateSingleton).not.toHaveBeenCalled();
-    expect(sdk.createItem).toHaveBeenCalledWith("shop_settings", expect.objectContaining({
+    expect(sdk.updateSingleton).toHaveBeenCalledWith("shop_settings", expect.objectContaining({
       store_id: "demo-atelier",
       name: "Atelier Aurora",
       short_name: "Demo",
@@ -82,11 +79,13 @@ describe("DirectusShopProfileRepository", () => {
 
     await repository.complete(profile);
 
-    expect(sdk.createItem).not.toHaveBeenCalled();
-    expect(sdk.updateSingleton).toHaveBeenCalledWith("shop_settings", expect.objectContaining({
+    expect(sdk.updateSingleton).toHaveBeenCalledWith("shop_settings", {
       name: "Atelier Aurora",
       contact_email: "hola@atelieraurora.example",
       contact_phone: "+353 85 123 4567",
-    }));
+      whatsapp_number: "+353 85 123 4567",
+      address: "24 Camden Street Lower, Dublin 2, Ireland",
+      setup_completed_at: expect.any(String),
+    });
   });
 });

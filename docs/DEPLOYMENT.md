@@ -32,3 +32,9 @@ Only after the loopback health check succeeds should Nginx route the chosen HTTP
 ## Rollback
 
 Keep the previous Git commit or image available. To roll back, check out the last verified release and rebuild the app service with the same external `deployment.env`. The Directus database and uploads are not part of this frontend container and must not be deleted during a frontend rollback.
+
+## First-setup troubleshooting
+
+Directus singletons must be initialized with `updateSingleton`, including every required installation field. A normal item creation request fails with `Route /shop_settings doesn't exist`; updating an empty singleton without its required baseline fields fails validation.
+
+This affected the first-setup flow in revisions `13acb9c` and `1075e6d` on 2026-10-02. The regression test for `DirectusShopProfileRepository` covers both an empty virtual singleton (`id: null`) and an existing persisted singleton. A frontend rollback does not alter `shop_settings` data.

@@ -1,4 +1,4 @@
-import { createDirectus, createItem, readSingleton, rest, staticToken, updateSingleton } from "@directus/sdk";
+import { createDirectus, readSingleton, rest, staticToken, updateSingleton } from "@directus/sdk";
 import type { ShopProfileRepository } from "@/application/ports/ShopProfileRepository";
 import type { StoreConfig } from "@/config/storeConfig";
 import type { ShopProfile } from "@/domain/entities/ShopProfile";
@@ -68,7 +68,7 @@ export class DirectusShopProfileRepository implements ShopProfileRepository {
       await this.client.request(updateSingleton("shop_settings", values));
       return;
     }
-    await this.client.request(createItem("shop_settings", {
+    await this.client.request(updateSingleton("shop_settings", {
       ...values,
       store_id: this.baseline.id,
       short_name: this.baseline.identity.shortName,
