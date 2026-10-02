@@ -50,7 +50,7 @@ Each shop owns an independent installation and data boundary. Mendesk provides t
 - The configured shop name and logo are the primary identity inside each installation.
 - A discreet Mendesk attribution may appear on internal product surfaces.
 - Product or maker attribution must not appear in customer messages or printed tickets unless explicitly approved.
-- The provisional maker signature spelling (`Incandi` or `Incamdi`) is undecided and must not be encoded yet.
+- The maker spelling is confirmed as `Incamdi`. Its future attribution must remain discreet and internal to the panel by default.
 - `Nika` is an unconfirmed future shop name and must not be encoded as product truth.
 
 ## Evidence on Hand

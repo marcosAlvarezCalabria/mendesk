@@ -2,12 +2,16 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 
 const mocks = vi.hoisted(() => ({
   login: vi.fn(),
+  getShopProfile: vi.fn(),
   redirect: vi.fn(),
   setSessionCookies: vi.fn(),
 }));
 
 vi.mock("next/navigation", () => ({ redirect: mocks.redirect }));
-vi.mock("@/composition/directus", () => ({ makeAuthService: () => ({ login: mocks.login }) }));
+vi.mock("@/composition/directus", () => ({
+  makeAuthService: () => ({ login: mocks.login }),
+  makeShopProfileRepository: () => ({ get: mocks.getShopProfile }),
+}));
 vi.mock("@/infrastructure/auth/sessionCookie", () => ({ setSessionCookies: mocks.setSessionCookies }));
 
 import { loginAction } from "@/app/login/actions";
@@ -17,6 +21,7 @@ describe("loginAction", () => {
   beforeEach(() => {
     vi.clearAllMocks();
     mocks.login.mockResolvedValue({ accessToken: "token", refreshToken: "refresh-token", expiresIn: 900_000 });
+    mocks.getShopProfile.mockResolvedValue({ setupCompletedAt: "2026-10-02T12:00:00.000Z" });
     mocks.redirect.mockImplementation(() => {
       throw new Error("NEXT_REDIRECT");
     });
@@ -37,6 +42,14 @@ describe("loginAction", () => {
     await expect(loginAction({ error: null }, loginFormData(nextPath))).rejects.toThrow("NEXT_REDIRECT");
 
     expect(mocks.redirect).toHaveBeenCalledWith(nextPath);
+  });
+
+  it("sends an installation without a completed profile to first-run setup", async () => {
+    mocks.getShopProfile.mockResolvedValue(null);
+
+    await expect(loginAction({ error: null }, loginFormData("/orders"))).rejects.toThrow("NEXT_REDIRECT");
+
+    expect(mocks.redirect).toHaveBeenCalledWith("/setup?next=%2Forders");
   });
 
   it.each([undefined, "https://evil.example/orders/260819-0142", "/login", "/orders%2F260819-0142"])(

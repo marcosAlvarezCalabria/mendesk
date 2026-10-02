@@ -3,7 +3,7 @@
 import { redirect } from "next/navigation";
 
 import { safeNextPath } from "@/app/safeNextPath";
-import { makeAuthService } from "@/composition/directus";
+import { makeAuthService, makeShopProfileRepository } from "@/composition/directus";
 import { InvalidCredentialsError } from "@/domain/errors/InvalidCredentialsError";
 import { setSessionCookies } from "@/infrastructure/auth/sessionCookie";
 
@@ -17,6 +17,10 @@ export async function loginAction(_prevState: LoginFormState, formData: FormData
   try {
     const session = await makeAuthService().login({ email, password });
     await setSessionCookies(session);
+    const profile = await makeShopProfileRepository(session.accessToken).get();
+    if (!profile?.setupCompletedAt) {
+      redirect(`/setup?${new URLSearchParams({ next: nextPath })}`);
+    }
   } catch (error) {
     if (error instanceof InvalidCredentialsError) {
       return { error: "Invalid email or password" };

@@ -2,7 +2,7 @@ import { safeNewOrderReturnTo, withReturnTo } from "@/app/routeContext";
 
 export type NavigationItemKey = "orders" | "add" | "clients" | "appointments" | "stats";
 
-const PUBLIC_PATH_PREFIXES = ["/login", "/offline", "/kiosk"] as const;
+const PUBLIC_PATH_PREFIXES = ["/login", "/offline", "/kiosk", "/setup"] as const;
 
 export function isShellPath(pathname: string): boolean {
   return !PUBLIC_PATH_PREFIXES.some((prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`));
