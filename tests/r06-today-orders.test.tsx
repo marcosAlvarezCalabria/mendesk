@@ -106,7 +106,7 @@ describe("R06 overview after R05 invalidation", () => {
     secondView = await useCase.execute(query); second.markRead("collected"); second.setPending(false);
     expect(secondView.counts).toMatchObject({ data: { active: 0, readyForPickup: 0 } });
     expect(secondView.toCollect).toMatchObject({ data: { amountCents: 0 } });
-    expect(Channel.instances.every(channel => channel.name === "koko-order-invalidation-v1")).toBe(true);
+    expect(Channel.instances.every(channel => channel.name === "mendesk-order-invalidation-v1")).toBe(true);
   });
 });
 afterEach(() => { cleanups.forEach(cleanup => cleanup()); vi.useRealTimers(); vi.unstubAllGlobals(); });

@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
 import { readClientRegistrationRecovery, writeClientRegistrationRecovery, clearClientRegistrationRecovery } from "./clientRegistrationRecovery";
-const key = "koko:client-registration:recovery:v1";
+const key = "mendesk:client-registration:recovery:v1";
 describe("client registration recovery privacy", () => {
   it("stores only a generic marker and safe pagination without search", () => {
     const storage = { setItem: vi.fn() };

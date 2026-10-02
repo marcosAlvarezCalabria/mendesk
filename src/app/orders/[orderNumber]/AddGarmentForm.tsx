@@ -14,6 +14,7 @@ import {
   reconcileAddedGarmentAction,
 } from "@/app/orders/[orderNumber]/edit-actions";
 import { ALTERATION_TYPE_OPTIONS } from "@/app/orders/new/newOrderForm";
+import { idempotencyKeys } from "@/config/technicalKeys";
 
 const initialState: AddGarmentState = { status: "idle", error: null };
 
@@ -73,7 +74,7 @@ export function AddGarmentForm({
     ? state.nextIdempotencyKey
     : reconciliation.status === "saved" ? reconciliation.nextIdempotencyKey : undefined;
   const { idempotencyKey, ready: idempotencyReady } = useSessionIdempotencyKey(
-    `koko:idempotency:add-garment:${orderNumber}`,
+    idempotencyKeys.addGarment(orderNumber),
     initialIdempotencyKey,
     confirmedNextKey,
   );

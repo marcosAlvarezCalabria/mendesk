@@ -12,6 +12,7 @@ import { useModalFocus } from "@/app/_ui/useModalFocus";
 import { collectOrderAction, type CollectError, type CollectState } from "@/app/orders/[orderNumber]/collect-actions";
 import { OrderSyncContext } from "@/app/sync/OrderSyncProvider";
 import { useMutationSync } from "@/app/sync/useMutationSync";
+import { idempotencyKeys } from "@/config/technicalKeys";
 import type { PaymentMethod } from "@/domain/values/PaymentMethod";
 
 const initialState: CollectState = { status: "idle", error: null };
@@ -37,7 +38,7 @@ export function CollectOrderPanel({ orderNumber, expectedDateUpdated, outstandin
     return result;
   }, initialState);
   const sync = useMutationSync(state.sync);
-  const { idempotencyKey, ready } = useSessionIdempotencyKey(`koko:idempotency:collect:${orderNumber}`, initialIdempotencyKey);
+  const { idempotencyKey, ready } = useSessionIdempotencyKey(idempotencyKeys.collectOrder(orderNumber), initialIdempotencyKey);
   const hasOutstanding = collectRequiresPayment(outstandingAmount);
   const blocked = pending || !ready || sync.phase === "refreshing" || sync.phase === "error";
   useModalFocus(open, panelRef, triggerRef);

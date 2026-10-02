@@ -1,4 +1,5 @@
-const CACHE_PREFIX = "koko-pwa-shell-";
+const CACHE_PREFIX = "mendesk-pwa-shell-";
+const LEGACY_CACHE_PREFIXES = ["koko-pwa-shell-"];
 const CACHE_NAME = `${CACHE_PREFIX}v2`;
 const SHELL_URLS = ["/offline", "/store/demo-atelier-mark.svg"];
 
@@ -13,7 +14,10 @@ self.addEventListener("activate", (event) => {
   event.waitUntil(
     caches.keys().then((keys) => Promise.all(
       keys
-        .filter((key) => key.startsWith(CACHE_PREFIX) && key !== CACHE_NAME)
+        .filter((key) => (
+          (key.startsWith(CACHE_PREFIX) && key !== CACHE_NAME)
+          || LEGACY_CACHE_PREFIXES.some((prefix) => key.startsWith(prefix))
+        ))
         .map((key) => caches.delete(key)),
     )),
   );

@@ -8,6 +8,7 @@ import { initialCreationReconciliationState } from "@/app/_ui/CreationReconcilia
 import { formatPhoneForDisplay } from "@/app/_ui/phoneDisplay";
 import { isMutationSubmissionBlocked } from "@/app/_ui/mutationSubmission";
 import { reconcileScheduledAppointmentAction, scheduleAppointmentAction, type ScheduleState } from "@/app/appointments/actions";
+import { technicalKeys } from "@/config/technicalKeys";
 import type { OrderStatusValue } from "@/domain/values/OrderStatus";
 
 export type AppointmentClientOption = { id: string; name: string; phone: string | null };
@@ -43,7 +44,7 @@ export type AppointmentFormTexts = {
 };
 
 const initialState: ScheduleState = { status: "idle", error: null };
-const DRAFT_KEY = "koko:appointment:new:draft:v1";
+const DRAFT_KEY = technicalKeys.appointmentDraft;
 const inputClassName = "min-h-11 w-full rounded-lg border border-outline-variant bg-surface-container-lowest px-3 text-base text-on-surface outline-none transition placeholder:text-on-surface-variant focus:border-primary focus:ring-2 focus:ring-secondary/40";
 
 export function AppointmentForm({ appointmentId: initialAppointmentId, texts, successHref, initialClient, initialOrders = [] }: { appointmentId: string; texts: AppointmentFormTexts; successHref?: string; initialClient?: AppointmentClientOption; initialOrders?: readonly AppointmentOrderOption[] }) {

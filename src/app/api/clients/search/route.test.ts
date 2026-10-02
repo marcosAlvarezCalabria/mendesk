@@ -89,7 +89,7 @@ describe("/api/clients/search", () => {
     expect(response.status).toBe(401);
     await expect(response.json()).resolves.toEqual({ error: "Unauthorized" });
     expect(cookieSet).toHaveBeenCalledWith(
-      "koko_session",
+      "mendesk_session",
       "",
       expect.objectContaining({ maxAge: 0 }),
     );

@@ -32,17 +32,23 @@ describe("R17 service worker privacy contract", () => {
     expect(runtime.caches.open).not.toHaveBeenCalled();
   });
 
-  it("removes only obsolete Koko shell caches", async () => {
+  it("removes obsolete Mendesk caches and the explicitly supported Koko legacy cache", async () => {
     const runtime = makeRuntime();
     const waitUntil = vi.fn();
-    runtime.caches.keys.mockResolvedValueOnce(["koko-pwa-shell-v0", "koko-pwa-shell-v1", "other-app"]);
+    runtime.caches.keys.mockResolvedValueOnce([
+      "mendesk-pwa-shell-v0",
+      "mendesk-pwa-shell-v2",
+      "koko-pwa-shell-v1",
+      "other-app",
+    ]);
 
     runtime.listeners.activate({ waitUntil });
     await waitUntil.mock.calls[0][0];
 
     expect(runtime.caches.delete).toHaveBeenCalledTimes(2);
-    expect(runtime.caches.delete).toHaveBeenCalledWith("koko-pwa-shell-v0");
+    expect(runtime.caches.delete).toHaveBeenCalledWith("mendesk-pwa-shell-v0");
     expect(runtime.caches.delete).toHaveBeenCalledWith("koko-pwa-shell-v1");
+    expect(runtime.caches.delete).not.toHaveBeenCalledWith("mendesk-pwa-shell-v2");
     expect(runtime.caches.delete).not.toHaveBeenCalledWith("other-app");
   });
 });

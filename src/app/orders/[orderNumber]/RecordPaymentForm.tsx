@@ -15,6 +15,7 @@ import { paymentAmountIssue } from "@/app/orders/[orderNumber]/paymentFormView";
 import { reconcileRecordedPaymentAction, recordPaymentAction, type PaymentErrorCode, type PaymentState } from "@/app/orders/[orderNumber]/payment-actions";
 import { OrderSyncContext } from "@/app/sync/OrderSyncProvider";
 import { useMutationSync } from "@/app/sync/useMutationSync";
+import { idempotencyKeys } from "@/config/technicalKeys";
 import { Money } from "@/domain/values/Money";
 import type { PaymentMethod } from "@/domain/values/PaymentMethod";
 import type { PaymentType } from "@/domain/values/PaymentType";
@@ -98,7 +99,7 @@ export function RecordPaymentForm({
     ? state.nextIdempotencyKey
     : reconciliation.status === "saved" ? reconciliation.nextIdempotencyKey : undefined;
   const { idempotencyKey, ready: idempotencyReady } = useSessionIdempotencyKey(
-    `koko:idempotency:payment:${orderNumber}`,
+    idempotencyKeys.payment(orderNumber),
     initialIdempotencyKey,
     confirmedNextKey,
   );

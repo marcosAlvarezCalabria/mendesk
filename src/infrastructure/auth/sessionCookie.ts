@@ -1,5 +1,7 @@
-export const SESSION_COOKIE_NAME = "koko_session";
-export const REFRESH_COOKIE_NAME = "koko_refresh";
+import { technicalKeys } from "@/config/technicalKeys";
+
+export const SESSION_COOKIE_NAME = technicalKeys.sessionCookie;
+export const REFRESH_COOKIE_NAME = technicalKeys.refreshCookie;
 
 export type SessionCookieOptions = {
   httpOnly: true;

@@ -1,8 +1,9 @@
 import { buildClientsHref, parseClientsAnchor, parseClientsPage } from "@/app/clients/clientsHref";
 import { safeNewClientReturnTo } from "@/app/routeContext";
+import { technicalKeys } from "@/config/technicalKeys";
 
 export type ClientRegistrationRecovery = { status: "reconciliation-required"; returnTo: string };
-const KEY = "koko:client-registration:recovery:v1";
+const KEY = technicalKeys.clientRegistrationRecovery;
 
 function recoveryReturnTo(value: string): string {
   const safeReturnTo = safeNewClientReturnTo(value);
