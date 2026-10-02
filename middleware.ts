@@ -53,7 +53,7 @@ export async function middleware(request: NextRequest) {
   }
 }
 
-export const config = { matcher: ["/dashboard/:path*", "/orders/:path*", "/clients/:path*", "/appointments/:path*", "/stats/:path*"] };
+export const config = { matcher: ["/dashboard/:path*", "/orders/:path*", "/clients/:path*", "/appointments/:path*", "/stats/:path*", "/setup/:path*"] };
 
 function redirectToLogin(request: NextRequest, nextPath: string): NextResponse {
   const loginUrl = new URL("/login", request.url);

@@ -34,6 +34,9 @@ import { DirectusPaymentRepository } from "@/infrastructure/directus/DirectusPay
 import { DirectusPhotoStorage } from "@/infrastructure/directus/DirectusPhotoStorage";
 import { createDirectusStatsGateway } from "@/infrastructure/directus/DirectusStatsGateway";
 import { DirectusStatsProvider } from "@/infrastructure/directus/DirectusStatsProvider";
+import { DirectusShopProfileRepository } from "@/infrastructure/directus/DirectusShopProfileRepository";
+import type { ShopProfileRepository } from "@/application/ports/ShopProfileRepository";
+import { storeConfig } from "@/config/currentStore";
 
 export function makeHealthCheck(): HealthCheck {
   const url = getDirectusUrl();
@@ -132,6 +135,10 @@ export function makePhotoStorage(token: string): PhotoStorage {
   const url = getDirectusUrl();
 
   return new DirectusPhotoStorage(createDirectusFilesGateway(url, token));
+}
+
+export function makeShopProfileRepository(token: string): ShopProfileRepository {
+  return new DirectusShopProfileRepository(getDirectusUrl(), token, storeConfig);
 }
 
 function getDirectusUrl(): string {

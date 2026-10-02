@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import { activeNavigationItem, buildNewOrderHref, isShellPath, shouldShowMobileNavigation } from "@/app/_ui/appShellNavigation";
 
 describe("app shell navigation", () => {
-  it.each(["/login", "/offline", "/kiosk", "/kiosk/complete"])("keeps %s outside the authenticated shell", (pathname) => {
+  it.each(["/login", "/offline", "/kiosk", "/kiosk/complete", "/setup"])("keeps %s outside the authenticated shell", (pathname) => {
     expect(isShellPath(pathname)).toBe(false);
   });
 
@@ -36,7 +36,7 @@ describe("app shell navigation", () => {
     },
   );
 
-  it.each(["/login", "/offline", "/kiosk", "/kiosk/complete"])(
+  it.each(["/login", "/offline", "/kiosk", "/kiosk/complete", "/setup"])(
     "keeps the mobile navigation off the public route %s",
     (pathname) => {
       expect(shouldShowMobileNavigation(pathname)).toBe(false);
