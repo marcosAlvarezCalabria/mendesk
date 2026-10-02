@@ -45,6 +45,21 @@ describe("Mendesk base Directus schema", () => {
     expect(report.issues.every((issue) => issue.code === "missing-collection")).toBe(true);
   });
 
+  it("includes the editable workshop profile and first-run completion marker", () => {
+    const settings = baseFields
+      .filter((item) => item.collection === "shop_settings")
+      .map((item) => ({ field: item.field, nullable: item.nullable, readonly: item.readonly ?? false, type: item.type }));
+
+    expect(settings).toEqual(expect.arrayContaining([
+      { field: "contact_email", nullable: true, readonly: false, type: "string" },
+      { field: "contact_phone", nullable: true, readonly: false, type: "string" },
+      { field: "whatsapp_number", nullable: true, readonly: false, type: "string" },
+      { field: "address", nullable: true, readonly: false, type: "text" },
+      { field: "ticket_footer", nullable: true, readonly: false, type: "text" },
+      { field: "setup_completed_at", nullable: true, readonly: true, type: "timestamp" },
+    ]));
+  });
+
   it("refuses incompatible field types before writing", async () => {
     const admin = fakeAdmin(fullInventory({ typeOverride: { key: "clients.phone", type: "integer" } }));
     await expect(provisionBaseSchema(admin, { apply: true })).rejects.toThrow(
