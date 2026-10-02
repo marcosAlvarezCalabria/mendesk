@@ -1,0 +1,45 @@
+name: mendesk-panel
+
+services:
+  app:
+    build:
+      context: ../..
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    init: true
+    ports:
+      - "127.0.0.1:${MENDESK_APP_PORT:-3000}:3000"
+    environment:
+      NODE_ENV: production
+      DIRECTUS_URL: ${DIRECTUS_URL:-http://directus:8055}
+      MENDESK_STORE_ID: ${MENDESK_STORE_ID:?Set MENDESK_STORE_ID in the deployment environment}
+      MENDESK_STORE_NAME: ${MENDESK_STORE_NAME:?Set MENDESK_STORE_NAME in the deployment environment}
+      MENDESK_STORE_SHORT_NAME: ${MENDESK_STORE_SHORT_NAME:?Set MENDESK_STORE_SHORT_NAME in the deployment environment}
+      MENDESK_STORE_LOGO_PATH: ${MENDESK_STORE_LOGO_PATH:-/store/demo-atelier-mark.svg}
+      MENDESK_STORE_PANEL_URL: ${MENDESK_STORE_PANEL_URL:?Set the public HTTPS panel URL}
+      MENDESK_STORE_REVIEW_URL: ${MENDESK_STORE_REVIEW_URL:-}
+      MENDESK_STORE_LOCALES: ${MENDESK_STORE_LOCALES:-en,uk}
+      MENDESK_STORE_DEFAULT_LOCALE: ${MENDESK_STORE_DEFAULT_LOCALE:-en}
+      MENDESK_STORE_TIME_ZONE: ${MENDESK_STORE_TIME_ZONE:-Europe/Dublin}
+      MENDESK_STORE_CURRENCY: ${MENDESK_STORE_CURRENCY:-EUR}
+      MENDESK_STORE_CALLING_CODE: ${MENDESK_STORE_CALLING_CODE:-353}
+      KIOSK_TOKEN: ${KIOSK_TOKEN:-}
+    healthcheck:
+      test:
+        - CMD
+        - node
+        - -e
+        - fetch('http://127.0.0.1:3000/login').then((response)=>{if(!response.ok)process.exit(1)}).catch(()=>process.exit(1))
+      interval: 15s
+      timeout: 5s
+      retries: 8
+      start_period: 20s
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - directus
+
+networks:
+  directus:
+    external: true
+    name: ${MENDESK_DIRECTUS_NETWORK:-mendesk-demo_default}
