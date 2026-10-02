@@ -40,6 +40,22 @@ The audit command is read-only. Apply refuses to write when an existing field ha
 
 This step does not create roles, users or demonstration records. Those remain separate provisioning changes so access control and fictional content can be reviewed independently.
 
+## Provision demo application access
+
+After the base schema is clean, provision the non-administrator role and policy used by Mendesk:
+
+```text
+pnpm directus:access:audit
+pnpm directus:access:apply
+pnpm directus:access:audit
+```
+
+The policy has no administrator or Directus Studio access. It grants only the collection actions exercised by the Mendesk application. In particular, it does not allow deleting clients or orders, updating payments, changing shop configuration, or managing users and schema.
+
+Directus 12 Core treats field-level restrictions and item filters as licensed custom permission rules. This provisioner therefore grants all fields inside each allowed action while keeping actions and collections restricted. That is acceptable for the isolated single-shop demo, where the instance stores only Mendesk data. Before commercial rollout, confirm Directus licensing or Open Innovation Grant eligibility if stricter field- or row-level rules are required.
+
+This step does not create accounts. Demo users and their credentials are provisioned separately so passwords never enter Git history.
+
 ## Stop safely
 
 Run `pnpm demo:down`. This stops the containers but retains the named volumes and their data. No reset or volume-deletion command is provided because deleting the database should always be a deliberate manual operation.

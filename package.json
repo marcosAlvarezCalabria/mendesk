@@ -18,6 +18,8 @@
     "demo:down": "docker compose --env-file .env.demo -f infra/demo/compose.yaml down",
     "directus:schema:audit": "node --experimental-strip-types scripts/directus/base-schema.ts --audit",
     "directus:schema:apply": "node --experimental-strip-types scripts/directus/base-schema.ts --apply",
+    "directus:access:audit": "node --experimental-strip-types scripts/directus/demo-access.ts --audit",
+    "directus:access:apply": "node --experimental-strip-types scripts/directus/demo-access.ts --apply",
     "directus:r04:audit": "node --experimental-strip-types scripts/directus/r04-schema.ts --audit",
     "directus:r04:apply": "node --experimental-strip-types scripts/directus/r04-schema.ts --apply"
   },
