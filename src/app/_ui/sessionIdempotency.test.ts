@@ -14,7 +14,7 @@ describe("session idempotency keys", () => {
 
   it("reuses the appointment UUID when a new form instance is mounted after reload or login", () => {
     const storage = new MemoryStorage();
-    const slot = "koko:idempotency:appointment:new";
+    const slot = "mendesk:idempotency:appointment:new";
     expect(restoreSessionIdempotencyKey(storage, slot, UUID_A)).toBe(UUID_A);
     expect(restoreSessionIdempotencyKey(storage, slot, UUID_B)).toBe(UUID_A);
   });

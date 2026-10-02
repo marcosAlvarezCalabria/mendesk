@@ -50,7 +50,7 @@ describe("/api/photos/[id]", () => {
     expect(response.status).toBe(401);
     await expect(response.text()).resolves.toBe("Unauthorized");
     expect(cookieSet).toHaveBeenCalledWith(
-      "koko_session",
+      "mendesk_session",
       "",
       expect.objectContaining({ maxAge: 0 }),
     );

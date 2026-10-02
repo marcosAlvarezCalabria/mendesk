@@ -19,7 +19,7 @@ describe("setLocale", () => {
   it("stores a valid locale and refreshes the current React tree in the same action", async () => {
     await setLocale("uk");
 
-    expect(mocks.setCookie).toHaveBeenCalledWith("koko_locale", "uk", {
+    expect(mocks.setCookie).toHaveBeenCalledWith("mendesk_locale", "uk", {
       path: "/",
       maxAge: 60 * 60 * 24 * 365,
       sameSite: "lax",

@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
 import { createClientRegistrationSession } from "./clientRegistrationSession";
-const slot = "koko:client-registration:recovery:v1";
+const slot = "mendesk:client-registration:recovery:v1";
 function setup(marker?: string) {
   const values = new Map(marker ? [[slot, marker]] : []);
   const storage = { getItem: (k: string) => values.get(k) ?? null, setItem: (k: string, v: string) => { values.set(k, v); }, removeItem: (k: string) => { values.delete(k); } };

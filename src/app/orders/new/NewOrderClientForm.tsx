@@ -16,6 +16,7 @@ import { createOrderAction, type NewOrderErrorCode, type NewOrderFormState } fro
 import { ClientPicker, type ClientPickerSelection, type ClientPickerTexts } from "@/app/orders/new/ClientPicker";
 import { lookupExistingClientByPhone, type ExistingClientMatch } from "@/app/orders/new/newClientLookup";
 import { NewOrderHeader } from "@/app/orders/new/NewOrderHeader";
+import { idempotencyKeys } from "@/config/technicalKeys";
 import {
   buildOrderReview,
   canSubmitOrder,
@@ -177,7 +178,7 @@ export function NewOrderForm({
         const replacement = replacements[index];
         if (!replacement) return garment;
         if (garment.id !== 1) {
-          storeSessionIdempotencyKey(window.sessionStorage, `koko:idempotency:new-order:garment:${garment.id}`, replacement, garment.idempotencyKey);
+          storeSessionIdempotencyKey(window.sessionStorage, idempotencyKeys.newOrderGarment(garment.id), replacement, garment.idempotencyKey);
         }
         return { ...garment, idempotencyKey: replacement };
       }));
@@ -207,14 +208,14 @@ export function NewOrderForm({
   const garmentsRef = useRef<HTMLElement>(null);
   const deliveryRef = useRef<HTMLElement>(null);
   const replacementKeys = state.replacementIdempotencyKeys;
-  const { idempotencyKey: persistedOrderKey, ready: orderKeyReady } = useSessionIdempotencyKey("koko:idempotency:new-order", orderIdempotencyKey, replacementKeys?.order);
+  const { idempotencyKey: persistedOrderKey, ready: orderKeyReady } = useSessionIdempotencyKey(idempotencyKeys.newOrder, orderIdempotencyKey, replacementKeys?.order);
   const { idempotencyKey: persistedFirstGarmentKey, ready: garmentKeyReady } = useSessionIdempotencyKey(
-    "koko:idempotency:new-order:garment:1",
+    idempotencyKeys.newOrderGarment(1),
     initialGarmentIdempotencyKey,
     replacementKeys?.garments[0],
   );
   const { idempotencyKey: persistedPaymentKey, ready: paymentKeyReady } = useSessionIdempotencyKey(
-    "koko:idempotency:new-order:payment",
+    idempotencyKeys.newOrderPayment,
     initialPaymentIdempotencyKey,
     replacementKeys?.payment,
   );
@@ -226,10 +227,10 @@ export function NewOrderForm({
       return;
     }
 
-    clearSessionIdempotencyKey(window.sessionStorage, "koko:idempotency:new-order", persistedOrderKey);
-    clearSessionIdempotencyKey(window.sessionStorage, "koko:idempotency:new-order:payment", persistedPaymentKey);
+    clearSessionIdempotencyKey(window.sessionStorage, idempotencyKeys.newOrder, persistedOrderKey);
+    clearSessionIdempotencyKey(window.sessionStorage, idempotencyKeys.newOrderPayment, persistedPaymentKey);
     for (const garmentId of garmentIdempotencySlotsToClear(nextGarmentId, garments.map((garment) => garment.id), state)) {
-      clearSessionIdempotencySlot(window.sessionStorage, `koko:idempotency:new-order:garment:${garmentId}`);
+      clearSessionIdempotencySlot(window.sessionStorage, idempotencyKeys.newOrderGarment(garmentId));
     }
     if (state.status === "success") {
       orderFinalizedRef.current = true;
@@ -357,7 +358,7 @@ export function NewOrderForm({
     setDirty(true);
     const idempotencyKey = restoreSessionIdempotencyKey(
       window.sessionStorage,
-      `koko:idempotency:new-order:garment:${nextGarmentId}`,
+      idempotencyKeys.newOrderGarment(nextGarmentId),
       crypto.randomUUID(),
     );
     setGarments((current) => [...current, { id: nextGarmentId, idempotencyKey }]);

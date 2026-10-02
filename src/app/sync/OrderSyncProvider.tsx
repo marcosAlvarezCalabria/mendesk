@@ -2,6 +2,7 @@
 
 import { createContext, useEffect, useMemo, useSyncExternalStore, useTransition, type ReactNode } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { technicalKeys } from "@/config/technicalKeys";
 import { dictionaries } from "@/i18n/dictionaries";
 import { DEFAULT_LOCALE, type Locale } from "@/i18n/locale";
 import type { InvalidationSignal, MutationSyncReceipt } from "./contracts";
@@ -141,7 +142,7 @@ function createSession(refresh: () => void) {
       active = true;
       try {
         if (typeof BroadcastChannel !== "undefined") {
-          channel = new BroadcastChannel("koko-order-invalidation-v1");
+          channel = new BroadcastChannel(technicalKeys.orderInvalidationChannel);
           channel.onmessage = (event) => receive(event.data);
         }
       } catch { channel = undefined; }
