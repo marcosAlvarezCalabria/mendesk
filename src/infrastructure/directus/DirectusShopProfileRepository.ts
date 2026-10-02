@@ -63,7 +63,8 @@ export class DirectusShopProfileRepository implements ShopProfileRepository {
       address: profile.address ?? null,
       setup_completed_at: completed,
     };
-    if (await this.readRecord()) {
+    const current = await this.readRecord();
+    if (current?.id != null) {
       await this.client.request(updateSingleton("shop_settings", values));
       return;
     }
