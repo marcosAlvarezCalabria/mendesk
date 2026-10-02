@@ -44,7 +44,9 @@ export const demoPermissions: readonly DemoPermissionDefinition[] = [
   permission("appointments", "update"),
   permission("appointments", "delete"),
   permission("order_sequences", "create"),
+  permission("shop_settings", "create"),
   permission("shop_settings", "read"),
+  permission("shop_settings", "update"),
   permission("directus_files", "create"),
   permission("directus_files", "read"),
 ] as const;

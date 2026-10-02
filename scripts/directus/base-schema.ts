@@ -124,8 +124,12 @@ export const baseFields: readonly BaseFieldDefinition[] = [
   field("shop_settings", "time_zone", "string", false, { defaultValue: "Europe/Dublin", interface: "input" }),
   field("shop_settings", "currency", "string", false, { defaultValue: "EUR", interface: "input" }),
   field("shop_settings", "calling_code", "string", false, { defaultValue: "353", interface: "input" }),
+  field("shop_settings", "contact_email", "string", true, { interface: "input" }),
+  field("shop_settings", "contact_phone", "string", true, { interface: "input" }),
   field("shop_settings", "whatsapp_number", "string", true, { interface: "input" }),
+  field("shop_settings", "address", "text", true, { interface: "input-multiline" }),
   field("shop_settings", "ticket_footer", "text", true, { interface: "input-multiline" }),
+  field("shop_settings", "setup_completed_at", "timestamp", true, { interface: "datetime", readonly: true }),
 ] as const;
 
 export type BaseRelationDefinition = Readonly<{

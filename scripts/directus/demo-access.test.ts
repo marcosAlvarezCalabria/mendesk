@@ -19,7 +19,7 @@ describe("Mendesk demo Directus access", () => {
     expect(actions("payments")).toEqual(["create", "read", "delete"]);
     expect(actions("appointments")).toEqual(["create", "read", "update", "delete"]);
     expect(actions("order_sequences")).toEqual(["create"]);
-    expect(actions("shop_settings")).toEqual(["read"]);
+    expect(actions("shop_settings")).toEqual(["create", "read", "update"]);
     expect(actions("directus_files")).toEqual(["create", "read"]);
   });
 
