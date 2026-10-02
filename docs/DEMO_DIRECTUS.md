@@ -56,6 +56,18 @@ Directus 12 Core treats field-level restrictions and item filters as licensed cu
 
 This step does not create accounts. Demo users and their credentials are provisioned separately so passwords never enter Git history.
 
+## Provision the demo staff account
+
+Choose a dedicated email address and a unique password of at least 16 characters containing upper- and lowercase letters, a number and a symbol. Supply them only through the process environment together with the Directus administrator connection:
+
+```text
+pnpm directus:user:audit
+pnpm directus:user:apply
+pnpm directus:user:audit
+```
+
+The commands require `DEMO_STAFF_EMAIL`; apply additionally requires `DEMO_STAFF_PASSWORD`. Do not place either value in a tracked file or in command-line arguments. The provisioner creates only a missing account, assigns `Mendesk Demo Staff`, and never prints credentials. If that email already belongs to an inactive account or another role, it stops without changing the user. Re-running apply does not reset the password.
+
 ## Stop safely
 
 Run `pnpm demo:down`. This stops the containers but retains the named volumes and their data. No reset or volume-deletion command is provided because deleting the database should always be a deliberate manual operation.
