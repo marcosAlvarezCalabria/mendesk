@@ -15,7 +15,8 @@ describe("persistent mobile navigation layout", () => {
   it.each(["/clients/new", "/clients/test", "/orders/test/tickets", "/appointments/history"])("reserves bottom space and renders navigation on %s", pathname => {
     mocks.pathname = pathname;
     const html = renderToStaticMarkup(<AppShell currentLocale="en" identity={identity} labels={labels} logoutAction={vi.fn()}><p>Content</p></AppShell>);
-    expect(html).toContain("pb-[calc(4.25rem+env(safe-area-inset-bottom))]");
+    expect(html).toContain("pb-[calc(4.25rem+var(--mobile-navigation-safe-area))]");
+    expect(html).toContain("pb-[max(0.25rem,var(--mobile-navigation-safe-area))]");
     expect(html).toContain("fixed inset-x-0 bottom-0");
     expect(html).toContain("data-mobile-navigation");
     expect(html).toContain("md:hidden print:hidden");
@@ -27,7 +28,7 @@ describe("persistent mobile navigation layout", () => {
   });
   it("places fixed order actions above mobile navigation and preserves desktop positioning", () => {
     const html = renderToStaticMarkup(<StatusBar actions={[]} orderNumber="test" sourceStatus="collected" expectedDateUpdated="test" reviewWhatsappUrl="https://example.com" texts={{ ariaLabel: "Order actions", askReview: "Review" } as StatusBarTexts} />);
-    expect(html).toContain("bottom-[calc(4.25rem+env(safe-area-inset-bottom))]");
+    expect(html).toContain("bottom-[calc(4.25rem+var(--mobile-navigation-safe-area))]");
     expect(html).toContain("md:bottom-0");
     expect(html).toContain("md:left-20");
     expect(html).toContain("lg:left-60");

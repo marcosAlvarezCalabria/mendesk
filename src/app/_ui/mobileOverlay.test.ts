@@ -3,9 +3,9 @@ import { mobileDialogPanelClassName, mobileNativeDialogClassName, mobileOverlayC
 
 describe("mobile overlays", () => {
   it("keep every popup above the persistent navigation and inside the viewport", () => {
-    expect(mobileOverlayClassName).toContain("pb-[calc(5rem+env(safe-area-inset-bottom))]");
-    expect(mobileDialogPanelClassName).toContain("max-h-[calc(100dvh-6rem-env(safe-area-inset-bottom))]");
+    expect(mobileOverlayClassName).toContain("pb-[calc(5rem+var(--mobile-navigation-safe-area))]");
+    expect(mobileDialogPanelClassName).toContain("max-h-[calc(100dvh-6rem-var(--mobile-navigation-safe-area))]");
     expect(mobileDialogPanelClassName).toContain("max-w-full");
-    expect(mobileNativeDialogClassName).toContain("mb-[calc(5rem+env(safe-area-inset-bottom))]");
+    expect(mobileNativeDialogClassName).toContain("mb-[calc(5rem+var(--mobile-navigation-safe-area))]");
   });
 });

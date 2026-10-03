@@ -581,8 +581,8 @@ export function NewOrderForm({
 
   const actionMessage = state.errorCode === "invalidPhone" ? null : localizeActionError(state, texts);
   const formBottomPadding = step === "review"
-    ? "pb-[calc(8.5rem+env(safe-area-inset-bottom))] sm:pb-[calc(10rem+env(safe-area-inset-bottom))]"
-    : "pb-[calc(6rem+env(safe-area-inset-bottom))] sm:pb-[calc(7rem+env(safe-area-inset-bottom))]";
+    ? "pb-[calc(8.5rem+var(--mobile-navigation-safe-area))] sm:pb-[calc(10rem+var(--mobile-navigation-safe-area))]"
+    : "pb-[calc(6rem+var(--mobile-navigation-safe-area))] sm:pb-[calc(7rem+var(--mobile-navigation-safe-area))]";
 
   return (
     <main className="new-order-flow min-h-screen bg-background text-on-surface">
@@ -732,7 +732,7 @@ export function NewOrderForm({
           ) : null}
         </section>
 
-        <div className="fixed inset-x-0 bottom-[calc(4.25rem+env(safe-area-inset-bottom))] z-20 border-t border-outline-variant bg-background/95 backdrop-blur md:bottom-0 md:pb-[env(safe-area-inset-bottom)]" data-new-order-actions="">
+        <div className="fixed inset-x-0 bottom-[calc(4.25rem+var(--mobile-navigation-safe-area))] z-20 border-t border-outline-variant bg-background/95 backdrop-blur md:bottom-0 md:pb-[env(safe-area-inset-bottom)]" data-new-order-actions="">
           <div className="mx-auto grid w-full max-w-[640px] gap-1.5 px-margin-mobile py-2 sm:gap-2 sm:py-3">
             {step === "client" ? <ActionButton size="compact" disabled={checkingClient} icon="arrow_forward" variant="primary" onClick={continueFromClient}>{checkingClient ? texts.flow.checkingClient : texts.flow.continueWithClient}</ActionButton> : null}
             {step === "garments" && activeGarmentId !== null && isGarmentDraftComplete(garmentDrafts[activeGarmentId] ?? emptyGarmentDraft()) ? (
