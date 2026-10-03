@@ -1,6 +1,6 @@
 import { safeNewOrderReturnTo, withReturnTo } from "@/app/routeContext";
 
-export type NavigationItemKey = "orders" | "add" | "clients" | "appointments" | "stats";
+export type NavigationItemKey = "orders" | "add" | "clients" | "appointments" | "stats" | "settings";
 
 const PUBLIC_PATH_PREFIXES = ["/login", "/offline", "/kiosk", "/setup"] as const;
 
@@ -27,6 +27,10 @@ export function activeNavigationItem(pathname: string): NavigationItemKey | null
 
   if (pathname === "/stats") {
     return "stats";
+  }
+
+  if (pathname === "/settings") {
+    return "settings";
   }
 
   return null;

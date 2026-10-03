@@ -22,6 +22,7 @@ type AppShellLabels = {
   clients: string;
   appointments: string;
   stats: string;
+  settings: string;
   logout: string;
 };
 
@@ -116,6 +117,18 @@ function DesktopNavigation({
       </nav>
 
       <div className="flex flex-col items-center gap-2 border-t border-outline-variant/60 pt-3 lg:block lg:space-y-2">
+        <Link
+          aria-current={activeItem === "settings" ? "page" : undefined}
+          aria-label={labels.settings}
+          className={cx(
+            "flex min-h-14 w-full flex-col items-center justify-center gap-1 rounded-xl px-1 py-1 text-[0.625rem] font-semibold transition lg:min-h-12 lg:flex-row lg:justify-start lg:gap-3 lg:px-3 lg:py-0 lg:text-label-md focus:outline-none focus:ring-2 focus:ring-secondary focus:ring-offset-2",
+            activeItem === "settings" ? "bg-primary text-on-primary" : "text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface",
+          )}
+          href="/settings"
+        >
+          <Icon name="settings" />
+          <span className="w-full min-w-0 break-words whitespace-normal text-center leading-tight lg:truncate lg:text-left lg:leading-normal">{labels.settings}</span>
+        </Link>
         <LocaleToggle currentLocale={currentLocale} label={labels.language} />
         <form className="w-full" action={async () => {
           try { clearClientRegistrationRecovery(window.sessionStorage); } catch { /* Logout must remain available when storage is blocked. */ }

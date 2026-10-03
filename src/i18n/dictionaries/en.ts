@@ -48,6 +48,7 @@ export const en = {
   "nav.addNew": "Add New",
   "nav.archive": "Archive",
   "nav.more": "More",
+  "nav.settings": "Settings",
   "nav.backToOrders": "Back to orders",
   "nav.logOut": "Log out",
 

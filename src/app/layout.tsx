@@ -65,6 +65,7 @@ export default async function RootLayout({
             clients: t(dict, "clients.title"),
             appointments: t(dict, "appointments.title"),
             stats: t(dict, "stats.title"),
+            settings: t(dict, "nav.settings"),
             logout: t(dict, "nav.logOut"),
           }}
           logoutAction={logoutAction}

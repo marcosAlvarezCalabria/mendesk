@@ -24,8 +24,8 @@ describe("client recovery logout wiring", () => {
   it.each(["header", "desktop"])("clears the generic marker before accepted %s logout", async surface => {
     const removeItem = vi.fn(); vi.stubGlobal("window", { sessionStorage: { removeItem } });
     const logoutAction = vi.fn(async () => { expect(removeItem).toHaveBeenCalledWith("mendesk:client-registration:recovery:v1"); });
-    const tree = surface === "header" ? HeaderUtilitiesMenu({ labels: { more: "More", logout: "Log out" }, logoutAction })
-      : AppShell({ children: null, currentLocale: "en", identity, logoutAction, labels: { mainNavigation: "Nav", language: "Language", orders: "Orders", add: "New", clients: "Clients", appointments: "Agenda", stats: "Stats", logout: "Log out" } });
+    const tree = surface === "header" ? HeaderUtilitiesMenu({ labels: { more: "More", settings: "Settings", logout: "Log out" }, logoutAction })
+      : AppShell({ children: null, currentLocale: "en", identity, logoutAction, labels: { mainNavigation: "Nav", language: "Language", orders: "Orders", add: "New", clients: "Clients", appointments: "Agenda", stats: "Stats", settings: "Settings", logout: "Log out" } });
     await findForm(tree)!.props.action!(); expect(logoutAction).toHaveBeenCalledTimes(1);
   });
 });

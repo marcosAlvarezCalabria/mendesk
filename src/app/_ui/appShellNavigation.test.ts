@@ -7,7 +7,7 @@ describe("app shell navigation", () => {
     expect(isShellPath(pathname)).toBe(false);
   });
 
-  it.each(["/orders", "/orders/260819-0142", "/clients", "/appointments", "/stats"])("shows the authenticated shell on %s", (pathname) => {
+  it.each(["/orders", "/orders/260819-0142", "/clients", "/appointments", "/stats", "/settings"])("shows the authenticated shell on %s", (pathname) => {
     expect(isShellPath(pathname)).toBe(true);
   });
 
@@ -18,6 +18,7 @@ describe("app shell navigation", () => {
     ["/clients/client-1", "clients"],
     ["/appointments", "appointments"],
     ["/stats", "stats"],
+    ["/settings", "settings"],
   ] as const)("marks %s as %s", (pathname, item) => {
     expect(activeNavigationItem(pathname)).toBe(item);
   });
