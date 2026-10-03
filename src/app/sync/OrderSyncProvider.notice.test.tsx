@@ -34,7 +34,7 @@ describe("synchronization notice presentation", () => {
     expect(html).toContain("whitespace-normal");
   });
   it.each(["en", "uk"] as const)("places the provider and its notice inside the desktop content inset with %s", locale => {
-    const tree = AppShell({ children: null, currentLocale: locale, identity, logoutAction: vi.fn(), labels: { mainNavigation: "Navigation", language: "Language", orders: "Orders", add: "New", clients: "Clients", appointments: "Agenda", stats: "Stats", logout: "Log out" } });
+    const tree = AppShell({ children: null, currentLocale: locale, identity, logoutAction: vi.fn(), labels: { mainNavigation: "Navigation", language: "Language", orders: "Orders", add: "New", clients: "Clients", appointments: "Agenda", stats: "Stats", settings: "Settings", logout: "Log out" } });
     if (!isValidElement<{ className: string; children: ReactElement<{ locale: string }> }>(tree)) throw new Error("Expected the shell element");
     expect(tree.type).toBe("div");
     expect(tree.props.className).toContain("md:pl-20");

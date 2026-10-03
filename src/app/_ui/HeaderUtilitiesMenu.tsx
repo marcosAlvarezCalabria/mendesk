@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef } from "react";
 
@@ -9,6 +10,7 @@ import { clearClientRegistrationRecovery } from "@/app/clients/new/clientRegistr
 type HeaderUtilitiesMenuProps = {
   labels: {
     more: string;
+    settings: string;
     logout: string;
   };
   logoutAction: () => Promise<void>;
@@ -34,6 +36,10 @@ export function HeaderUtilitiesMenu({ labels, logoutAction }: HeaderUtilitiesMen
       </summary>
 
       <div className="absolute right-0 top-[calc(100%+0.5rem)] z-40 w-60 rounded-xl border border-outline-variant bg-surface-container-lowest p-2 shadow-[0_12px_28px_rgba(31,27,23,0.16)]">
+        <Link aria-current={pathname === "/settings" ? "page" : undefined} className={menuItemClassName} href="/settings">
+          <Icon name="settings" />
+          <span>{labels.settings}</span>
+        </Link>
         <form action={async () => {
           try { clearClientRegistrationRecovery(window.sessionStorage); } catch { /* Logout must remain available when storage is blocked. */ }
           await logoutAction();

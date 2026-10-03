@@ -48,6 +48,7 @@ export const uk = {
   "nav.addNew": "Додати",
   "nav.archive": "Архів",
   "nav.more": "Ще",
+  "nav.settings": "Налаштування",
   "nav.backToOrders": "Назад до замовлень",
   "nav.logOut": "Вийти",
 

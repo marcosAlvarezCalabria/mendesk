@@ -9,7 +9,7 @@ vi.mock("@/i18n/setLocale", () => ({ setLocale: vi.fn() }));
 vi.mock("react", async original => ({ ...await original<typeof import("react")>(), useEffect: () => {}, useContext: () => null, useActionState: (_action: unknown, initial: unknown) => [initial, vi.fn(), false] }));
 import { AppShell } from "./AppShell";
 import { StatusBar, type StatusBarTexts } from "@/app/orders/[orderNumber]/StatusBar";
-const labels = { mainNavigation: "Navigation", language: "Language", orders: "Orders", add: "New", clients: "Clients", appointments: "Agenda", stats: "Stats", logout: "Log out" };
+const labels = { mainNavigation: "Navigation", language: "Language", orders: "Orders", add: "New", clients: "Clients", appointments: "Agenda", stats: "Stats", settings: "Settings", logout: "Log out" };
 const identity = { name: "Demo Atelier", shortName: "Demo", logo: { src: "/store/demo-atelier-mark.svg", alt: "Demo Atelier" } };
 describe("persistent mobile navigation layout", () => {
   it.each(["/clients/new", "/clients/test", "/orders/test/tickets", "/appointments/history"])("reserves bottom space and renders navigation on %s", pathname => {
@@ -48,5 +48,14 @@ describe("persistent mobile navigation layout", () => {
     expect(html).toContain("lg:text-label-md");
     expect(html).toContain("break-words whitespace-normal text-center leading-tight lg:truncate");
     expect(html).not.toContain("hidden lg:inline");
+  });
+
+  it("keeps Settings in the desktop utility area without adding a sixth mobile destination", () => {
+    mocks.pathname = "/settings";
+    const html = renderToStaticMarkup(<AppShell currentLocale="en" identity={identity} labels={labels} logoutAction={vi.fn()}><p>Settings page</p></AppShell>);
+
+    expect(html).toContain('href="/settings"');
+    expect(html).toContain('aria-current="page"');
+    expect((html.match(/href="\/settings"/g) ?? [])).toHaveLength(1);
   });
 });

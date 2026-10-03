@@ -54,7 +54,7 @@ export async function AppHeader({ variant = "home", title, subtitle, className, 
           <span className="md:hidden"><LocaleToggle currentLocale={locale} label={t(dict, "nav.language")} /></span>
           {mobileAction ?? (
             <span className="md:hidden"><HeaderUtilitiesMenu
-                labels={{ more: t(dict, "nav.more"), logout: t(dict, "nav.logOut") }}
+                labels={{ more: t(dict, "nav.more"), settings: t(dict, "nav.settings"), logout: t(dict, "nav.logOut") }}
                 logoutAction={logoutAction}
               /></span>
           )}
