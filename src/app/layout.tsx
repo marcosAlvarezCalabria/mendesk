@@ -9,14 +9,17 @@ import { dictionaries } from "@/i18n/dictionaries";
 import { getLocale } from "@/i18n/getLocale";
 import { t } from "@/i18n/t";
 import { productConfig } from "@/config/productConfig";
-import { storeConfig } from "@/config/currentStore";
+import { getCurrentStoreIdentity } from "@/composition/currentStoreIdentity";
 
-export const metadata: Metadata = {
-  title: `${storeConfig.identity.name} · ${productConfig.name}`,
-  description: `Private workshop management for ${storeConfig.identity.name}.`,
-  manifest: "/manifest.webmanifest",
-  appleWebApp: { capable: true, title: storeConfig.identity.shortName, statusBarStyle: "default" },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const identity = await getCurrentStoreIdentity();
+  return {
+    title: `${identity.name} · ${productConfig.name}`,
+    description: `Private workshop management for ${identity.name}.`,
+    manifest: "/manifest.webmanifest",
+    appleWebApp: { capable: true, title: identity.shortName, statusBarStyle: "default" },
+  };
+}
 
 export const viewport: Viewport = {
   themeColor: "#211D18",
@@ -46,7 +49,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const locale = await getLocale();
+  const [locale, identity] = await Promise.all([getLocale(), getCurrentStoreIdentity()]);
   const dict = dictionaries[locale];
 
   return (
@@ -56,7 +59,7 @@ export default async function RootLayout({
         <LegacyPinStorageCleanup />
         <AppShell
           currentLocale={locale}
-          identity={storeConfig.identity}
+          identity={identity}
           labels={{
             mainNavigation: t(dict, "nav.mainNavigation"),
             language: t(dict, "nav.language"),
