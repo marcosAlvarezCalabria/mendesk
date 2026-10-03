@@ -7,6 +7,7 @@ import { OrderNumber } from "@/domain/values/OrderNumber";
 const mocks = vi.hoisted(() => ({
   execute: vi.fn(),
   getByOrderNumber: vi.fn(),
+  getCurrentStoreIdentity: vi.fn(),
   getLocale: vi.fn(),
   getSessionToken: vi.fn(),
   isAuthError: vi.fn(),
@@ -26,6 +27,7 @@ vi.mock("@/application/useCases/ChangeOrderStatus", () => ({
 }));
 vi.mock("@/app/authRedirect", () => ({ redirectToLoginForAuthError: mocks.redirectToLoginForAuthError }));
 vi.mock("@/composition/directus", () => ({ makeOrderRepository: vi.fn(() => ({ getByOrderNumber: mocks.getByOrderNumber })) }));
+vi.mock("@/composition/currentStoreIdentity", () => ({ getCurrentStoreIdentity: mocks.getCurrentStoreIdentity }));
 vi.mock("@/infrastructure/auth/authError", () => ({ isAuthError: mocks.isAuthError }));
 vi.mock("@/i18n/getLocale", () => ({ getLocale: mocks.getLocale }));
 vi.mock("@/infrastructure/auth/sessionCookie", () => ({ getSessionToken: mocks.getSessionToken }));
@@ -54,6 +56,11 @@ describe("changeStatusAction locale", () => {
     vi.clearAllMocks();
     mocks.getSessionToken.mockResolvedValue("token");
     mocks.getLocale.mockResolvedValue("uk");
+    mocks.getCurrentStoreIdentity.mockResolvedValue({
+      name: "Atelier Aurora",
+      shortName: "Aurora",
+      logo: { src: "/store/demo-atelier-mark.svg", alt: "Atelier Aurora" },
+    });
     mocks.redirect.mockImplementation(() => { throw new Error("NEXT_REDIRECT"); });
     mocks.isAuthError.mockReturnValue(false);
     mocks.redirectToLoginForAuthError.mockRejectedValue(new Error("NEXT_REDIRECT"));
@@ -79,6 +86,8 @@ describe("changeStatusAction locale", () => {
     expect(mocks.getLocale).toHaveBeenCalledOnce();
     expect(state.status).toBe("success");
     expect(readWhatsappMessage(state.whatsappUrl)).toContain("готове");
+    expect(readWhatsappMessage(state.whatsappUrl)).toContain("Atelier Aurora");
+    expect(readWhatsappMessage(state.whatsappUrl)).not.toContain("Demo Atelier");
   });
 
   it("marks an anonymized client's order Ready without offering WhatsApp", async () => {

@@ -9,7 +9,7 @@ import { classifyMutationError, type MutationResult } from "@/application/mutati
 import { ChangeOrderStatus } from "@/application/useCases/ChangeOrderStatus";
 import type { Order } from "@/domain/entities/Order";
 import { makeOrderRepository } from "@/composition/directus";
-import { storeConfig } from "@/config/currentStore";
+import { getCurrentStoreIdentity } from "@/composition/currentStoreIdentity";
 import { isStatusAction, type StatusAction } from "@/app/orders/[orderNumber]/statusActions";
 import { InvalidStatusTransitionError } from "@/domain/errors/InvalidStatusTransitionError";
 import { OrderConflictError } from "@/domain/errors/OrderConflictError";
@@ -96,7 +96,7 @@ export async function changeStatusAction(prev: StatusState, formData: FormData):
   const sync = await completeOrderMutation({ kind: "order", orderId: order.id, orderNumber: order.orderNumber.value, clientId: order.client.id }, token);
 
   if (target === "ready") {
-    const locale = await getLocale();
+    const [locale, identity] = await Promise.all([getLocale(), getCurrentStoreIdentity()]);
 
     return {
       status: "success",
@@ -104,7 +104,7 @@ export async function changeStatusAction(prev: StatusState, formData: FormData):
       error: null,
       target,
       sync,
-      whatsappUrl: order.client.phone ? buildWhatsappUrl(order.client.phone, buildReadyMessage({ clientName: order.client.name, locale, storeName: storeConfig.identity.name })) : undefined,
+      whatsappUrl: order.client.phone ? buildWhatsappUrl(order.client.phone, buildReadyMessage({ clientName: order.client.name, locale, storeName: identity.name })) : undefined,
     };
   }
 
@@ -121,8 +121,8 @@ async function reconcileStatusChange(token: string, pending: PendingStatusChange
       const sync = await completeOrderMutation({ kind: "order", orderId: order.id, orderNumber: order.orderNumber.value, clientId: order.client.id }, token);
       if (pending.target === "collected") return { status: "success", mutationResult: "confirmed-saved", error: null, target: pending.target, sync };
       if (pending.target === "ready") {
-        const locale = await getLocale();
-        return { status: "success", mutationResult: "confirmed-saved", error: null, target: pending.target, sync, whatsappUrl: order.client.phone ? buildWhatsappUrl(order.client.phone, buildReadyMessage({ clientName: order.client.name, locale, storeName: storeConfig.identity.name })) : undefined };
+        const [locale, identity] = await Promise.all([getLocale(), getCurrentStoreIdentity()]);
+        return { status: "success", mutationResult: "confirmed-saved", error: null, target: pending.target, sync, whatsappUrl: order.client.phone ? buildWhatsappUrl(order.client.phone, buildReadyMessage({ clientName: order.client.name, locale, storeName: identity.name })) : undefined };
       }
       return { status: "success", mutationResult: "confirmed-saved", error: null, target: pending.target, sync };
     }

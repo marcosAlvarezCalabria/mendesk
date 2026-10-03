@@ -2,15 +2,15 @@ import { KioskForm } from "@/app/kiosk/KioskForm";
 import { dictionaries } from "@/i18n/dictionaries";
 import { getLocale } from "@/i18n/getLocale";
 import { t } from "@/i18n/t";
-import { storeConfig } from "@/config/currentStore";
+import { getCurrentStoreIdentity } from "@/composition/currentStoreIdentity";
 
 export default async function KioskPage() {
-  const locale = await getLocale();
+  const [locale, identity] = await Promise.all([getLocale(), getCurrentStoreIdentity()]);
   const dict = dictionaries[locale];
 
   return (
     <KioskForm
-      storeName={storeConfig.identity.name}
+      storeName={identity.name}
       texts={{
         successTitle: t(dict, "kiosk.successTitle"),
         successSubtitle: t(dict, "kiosk.successSubtitle"),
@@ -19,7 +19,7 @@ export default async function KioskPage() {
         subtitle: t(dict, "kiosk.subtitle"),
         name: t(dict, "kiosk.name"),
         phone: t(dict, "kiosk.phone"),
-        gdpr: t(dict, "kiosk.gdpr", { storeName: storeConfig.identity.name }),
+        gdpr: t(dict, "kiosk.gdpr", { storeName: identity.name }),
         submit: t(dict, "kiosk.submit"),
         submitting: t(dict, "kiosk.submitting"),
         offline: t(dict, "kiosk.offline"),

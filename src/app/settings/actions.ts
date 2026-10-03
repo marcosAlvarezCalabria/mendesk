@@ -1,5 +1,6 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 import type { ShopProfileFormState } from "@/app/_ui/ShopProfileForm";
@@ -15,6 +16,7 @@ export async function updateShopSettingsAction(_state: ShopProfileFormState, for
 
   try {
     await makeShopProfileRepository(token).complete(shopProfileFromFormData(formData));
+    revalidatePath("/", "layout");
     return { error: null, saved: true };
   } catch (error) {
     if (error instanceof ShopProfileValidationError) return { error: error.message, saved: false };

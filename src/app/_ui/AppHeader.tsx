@@ -9,7 +9,7 @@ import { LocaleToggle } from "@/app/_ui/LocaleToggle";
 import { dictionaries } from "@/i18n/dictionaries";
 import { getLocale } from "@/i18n/getLocale";
 import { t } from "@/i18n/t";
-import { storeConfig } from "@/config/currentStore";
+import { getCurrentStoreIdentity } from "@/composition/currentStoreIdentity";
 
 type AppHeaderProps = {
   variant?: "home" | "back";
@@ -22,7 +22,7 @@ type AppHeaderProps = {
 };
 
 export async function AppHeader({ variant = "home", title, subtitle, className, mobileAction, backHref = "/orders", backLabel }: AppHeaderProps) {
-  const locale = await getLocale();
+  const [locale, identity] = await Promise.all([getLocale(), getCurrentStoreIdentity()]);
   const dict = dictionaries[locale];
 
   return (
@@ -40,7 +40,7 @@ export async function AppHeader({ variant = "home", title, subtitle, className, 
           ) : null}
 
           <div className="min-w-0">
-            <p className="truncate font-wordmark text-[1.0625rem] font-medium leading-tight text-primary">{storeConfig.identity.name}</p>
+            <p className="truncate font-wordmark text-[1.0625rem] font-medium leading-tight text-primary">{identity.name}</p>
             {title || subtitle ? (
               <div className="mt-0.5 min-w-0">
                 {title ? <h1 className="truncate text-[0.6875rem] font-semibold leading-tight text-on-surface-variant">{title}</h1> : null}

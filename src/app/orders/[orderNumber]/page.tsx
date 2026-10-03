@@ -34,6 +34,7 @@ import { availableStatusActions } from "@/app/orders/[orderNumber]/statusActions
 import { garmentActionRowClassName, orderBalanceView, orderSummaryClassName } from "@/app/orders/[orderNumber]/orderDetailView";
 import { GetOrder } from "@/application/useCases/GetOrder";
 import { makeOrderRepository, makePhotoStorage } from "@/composition/directus";
+import { getCurrentStoreIdentity } from "@/composition/currentStoreIdentity";
 import { storeConfig } from "@/config/currentStore";
 import type { Garment } from "@/domain/entities/Garment";
 import type { Order } from "@/domain/entities/Order";
@@ -65,7 +66,7 @@ export default async function OrderDetailPage({ params, searchParams }: OrderDet
     redirect(`/login?next=${encodeURIComponent(loginReturnHref)}`);
   }
 
-  const locale = await getLocale();
+  const [locale, identity] = await Promise.all([getLocale(), getCurrentStoreIdentity()]);
   const dict = dictionaries[locale];
   const order = await getOrderOrNotFound(token, orderNumber, loginReturnHref);
   const returnTo = safeOrderReturnTo(requestedReturnTo, order.client.id);
@@ -73,9 +74,9 @@ export default async function OrderDetailPage({ params, searchParams }: OrderDet
   const editable = canEditOrder(order);
   const statusActions = availableStatusActions(order);
   const primaryStatusActions = statusActions.filter((action) => action === "ready");
-  const reviewWhatsappUrl = buildReviewWhatsappUrl(order, storeConfig.urls.reviewUrl, locale, storeConfig.identity.name);
+  const reviewWhatsappUrl = buildReviewWhatsappUrl(order, storeConfig.urls.reviewUrl, locale, identity.name);
   const readyWhatsappUrl = order.status.value === "ready" && order.client.phone
-    ? buildWhatsappUrl(order.client.phone, buildReadyMessage({ clientName: order.client.name, locale, storeName: storeConfig.identity.name }))
+    ? buildWhatsappUrl(order.client.phone, buildReadyMessage({ clientName: order.client.name, locale, storeName: identity.name }))
     : undefined;
   const balance = outstandingBalance(order);
   const paymentDefaults = paymentFormDefaults(order.status.value, balance);

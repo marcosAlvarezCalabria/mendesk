@@ -3,11 +3,13 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 const mocks = vi.hoisted(() => ({
   complete: vi.fn(),
   getSessionToken: vi.fn(),
+  revalidatePath: vi.fn(),
   redirectToLoginForAuthError: vi.fn(),
   redirect: vi.fn(),
 }));
 
 vi.mock("next/navigation", () => ({ redirect: mocks.redirect }));
+vi.mock("next/cache", () => ({ revalidatePath: mocks.revalidatePath }));
 vi.mock("@/app/authRedirect", () => ({ redirectToLoginForAuthError: mocks.redirectToLoginForAuthError }));
 vi.mock("@/composition/directus", () => ({ makeShopProfileRepository: () => ({ complete: mocks.complete }) }));
 vi.mock("@/infrastructure/auth/sessionCookie", () => ({ getSessionToken: mocks.getSessionToken }));
@@ -32,6 +34,7 @@ describe("updateShopSettingsAction", () => {
       whatsappNumber: "+353 85 123 4567",
       address: "24 Camden Street, Dublin",
     });
+    expect(mocks.revalidatePath).toHaveBeenCalledWith("/", "layout");
   });
 
   it("returns a recoverable validation error without writing", async () => {
@@ -40,6 +43,7 @@ describe("updateShopSettingsAction", () => {
 
     await expect(updateShopSettingsAction({ error: null }, invalid)).resolves.toEqual({ error: "Enter a valid email address", saved: false });
     expect(mocks.complete).not.toHaveBeenCalled();
+    expect(mocks.revalidatePath).not.toHaveBeenCalled();
   });
 
   it("returns to the settings page after an expired session", async () => {

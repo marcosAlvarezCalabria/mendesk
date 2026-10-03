@@ -7,6 +7,7 @@ import { safeOrderDetailReturnTo, withReturnTo } from "@/app/routeContext";
 import { ReadSyncMarker } from "@/app/sync/ReadSyncMarker";
 import { PrintGarmentTickets } from "@/application/useCases/PrintGarmentTickets";
 import { makeOrderRepository } from "@/composition/directus";
+import { getCurrentStoreIdentity } from "@/composition/currentStoreIdentity";
 import { storeConfig } from "@/config/currentStore";
 import { OrderNotFoundError } from "@/domain/errors/OrderNotFoundError";
 import type { TicketData } from "@/domain/orders/buildTicket";
@@ -30,7 +31,7 @@ export default async function OrderTicketsPage({ params, searchParams }: Tickets
     redirect(`/login?next=${encodeURIComponent(currentHref)}`);
   }
 
-  const locale = await getLocale();
+  const [locale, identity] = await Promise.all([getLocale(), getCurrentStoreIdentity()]);
   const dict = dictionaries[locale];
   const tickets = await getTicketsOrNotFound(token, orderNumber, currentHref);
   const ticketViews = await Promise.all(
@@ -58,7 +59,7 @@ export default async function OrderTicketsPage({ params, searchParams }: Tickets
           }}
           locale={locale}
           returnTo={returnTo}
-          storeName={storeConfig.identity.name}
+          storeName={identity.name}
           tickets={ticketViews}
         />
       </div>
