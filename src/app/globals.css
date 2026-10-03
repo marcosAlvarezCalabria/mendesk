@@ -87,6 +87,7 @@
 :root {
   color-scheme: light;
   background: #f7f4ef;
+  --mobile-navigation-safe-area: env(safe-area-max-inset-bottom, env(safe-area-inset-bottom));
 }
 
 *,

@@ -56,7 +56,7 @@ export function AppShell({ children, currentLocale, identity, labels, logoutActi
     <div className="min-h-screen w-full max-w-full overflow-x-hidden overflow-x-clip bg-background md:pl-20 lg:pl-60 print:pl-0">
     <OrderSyncProvider locale={currentLocale}>
       <DesktopNavigation currentLocale={currentLocale} identity={identity} labels={labels} logoutAction={logoutAction} newOrderHref={newOrderHref} pathname={pathname} />
-      <div className={cx("min-w-0 max-w-full overflow-x-hidden overflow-x-clip", showMobileNavigation ? "pb-[calc(4.25rem+env(safe-area-inset-bottom))] md:pb-0 print:pb-0" : undefined)}>{children}</div>
+      <div className={cx("min-w-0 max-w-full overflow-x-hidden overflow-x-clip", showMobileNavigation ? "pb-[calc(4.25rem+var(--mobile-navigation-safe-area))] md:pb-0 print:pb-0" : undefined)}>{children}</div>
       {showMobileNavigation ? <MobileNavigation labels={labels} newOrderHref={newOrderHref} pathname={pathname} /> : null}
     </OrderSyncProvider>
     </div>
@@ -158,7 +158,7 @@ function MobileNavigation({ labels, newOrderHref, pathname }: { labels: AppShell
     <nav
       aria-label={labels.mainNavigation}
       data-mobile-navigation=""
-      className="fixed inset-x-0 bottom-0 z-40 border-t border-outline-variant bg-surface-container-lowest pb-[max(0.25rem,env(safe-area-inset-bottom))] pl-[env(safe-area-inset-left)] pr-[env(safe-area-inset-right)] md:hidden print:hidden"
+      className="fixed inset-x-0 bottom-0 z-40 border-t border-outline-variant bg-surface-container-lowest pb-[max(0.25rem,var(--mobile-navigation-safe-area))] pl-[env(safe-area-inset-left)] pr-[env(safe-area-inset-right)] md:hidden print:hidden"
     >
       <div className="mx-auto grid min-h-16 max-w-[640px] grid-cols-5 px-2 pt-1">
         {links.map((link) => (

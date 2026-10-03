@@ -31,7 +31,7 @@ export function AppointmentDeleteButton({
         <DeleteButton clientName={clientName} label={texts.delete} pendingLabel={texts.deleting} />
       </form>
       {state.status === "error" ? (
-        <p className="fixed inset-x-4 bottom-[calc(5rem+env(safe-area-inset-bottom))] z-50 mx-auto max-w-md rounded-xl bg-error-container px-4 py-3 text-sm font-semibold text-on-error-container shadow-[0_8px_28px_rgba(46,38,31,0.18)]" role="alert">{texts.error}</p>
+        <p className="fixed inset-x-4 bottom-[calc(5rem+var(--mobile-navigation-safe-area))] z-50 mx-auto max-w-md rounded-xl bg-error-container px-4 py-3 text-sm font-semibold text-on-error-container shadow-[0_8px_28px_rgba(46,38,31,0.18)]" role="alert">{texts.error}</p>
       ) : null}
     </>
   );

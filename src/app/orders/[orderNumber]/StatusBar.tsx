@@ -90,7 +90,7 @@ export function StatusBar({
   }
 
   return (
-    <section className="fixed inset-x-0 bottom-[calc(4.25rem+env(safe-area-inset-bottom))] z-30 border-t border-outline-variant bg-background/95 shadow-[0_-4px_20px_0_rgba(0,0,0,0.04)] backdrop-blur md:bottom-0 md:left-20 lg:left-60" aria-label={texts.ariaLabel}>
+    <section className="fixed inset-x-0 bottom-[calc(4.25rem+var(--mobile-navigation-safe-area))] z-30 border-t border-outline-variant bg-background/95 shadow-[0_-4px_20px_0_rgba(0,0,0,0.04)] backdrop-blur md:bottom-0 md:left-20 lg:left-60" aria-label={texts.ariaLabel}>
       <div className="mx-auto w-full max-w-[720px] space-y-3 px-margin-mobile pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-3 md:pb-3">
         {successMessage ? (
           <p className="rounded-lg border border-status-ready/30 bg-status-ready/10 px-4 py-3 text-body-sm text-status-ready" role="status" aria-live="polite">
