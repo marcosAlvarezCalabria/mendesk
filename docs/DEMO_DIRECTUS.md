@@ -1,6 +1,6 @@
 # Local Directus demonstration runtime
 
-This runtime creates an independent local Directus and PostgreSQL installation for fictional Mendesk demonstration data. It is not a production deployment and does not contain a schema or records until the corresponding provisioning steps are run.
+This runtime creates an independent Directus and PostgreSQL installation for fictional Mendesk demonstration data. It is designed for local development and isolated test demonstrations. It is not the approved commercial production package and does not contain a schema or records until the corresponding provisioning steps are run.
 
 ## Start from an empty machine
 
@@ -22,7 +22,9 @@ Create a separate ignored application environment file with:
 DIRECTUS_URL=http://localhost:8055
 ```
 
-Application login will become functional after the schema, roles and fictional demonstration users are provisioned in the next changes.
+Application login becomes functional after the schema, role and fictional demonstration user described below are provisioned.
+
+The frontend also needs a separate server-only `KIOSK_TOKEN` if public kiosk intake and the saved workshop name on unauthenticated pages are required. Never use the Directus administrator token for that purpose.
 
 ## Provision the versioned base schema
 
@@ -83,6 +85,12 @@ The deterministic fixture contains 24 synthetic clients, 36 orders, their garmen
 ## Stop safely
 
 Run `pnpm demo:down`. This stops the containers but retains the named volumes and their data. No reset or volume-deletion command is provided because deleting the database should always be a deliberate manual operation.
+
+## Hosted test demonstrations
+
+The same isolated runtime may run on a test VPS when its Directus port remains private, PostgreSQL has no public port, the Mendesk frontend is served through HTTPS and the installation contains fictional data only. Server paths, addresses, credentials and tokens remain in the private operations inventory, not in this repository.
+
+Using the demo runtime on a VPS does not satisfy the production requirements for a paying client. Follow `docs/CLIENT_INSTALLATION_RUNBOOK.md` and approve the production Directus package before commercial delivery.
 
 ## Security boundary
 

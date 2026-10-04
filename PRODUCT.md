@@ -29,7 +29,7 @@ Each shop owns an independent installation and data boundary. Mendesk provides t
 - Thermal Bluetooth printing produces one physical ticket per garment with a protected deep-link QR.
 - WhatsApp communication remains semi-automatic: Mendesk prepares a message and the operator chooses whether to send it.
 - Koko Atelier is one independent installation and a functional reference, not a dependency or tenant.
-- A separate Directus demonstration installation will contain only fictional clients, garments, orders, payments and appointments.
+- A separate Directus demonstration installation contains only fictional clients, garments, orders, payments and appointments.
 - The demonstration uses the real Mendesk application and workflows, not a separate marketing mockup.
 
 ## Capabilities and Constraints
@@ -39,7 +39,8 @@ Each shop owns an independent installation and data boundary. Mendesk provides t
 - Current domain contracts for orders, garments, payments, appointments, statuses and numbering remain stable unless explicitly revised.
 - Every shop has its own Directus instance, database, files, users, configuration and deployment.
 - Multi-tenancy and shared shop data are out of scope.
-- Store name, logo, URLs, locale choices and customer-facing wording must become typed installation configuration.
+- Installation ID, fallback identity, logo, URLs, locale choices, time zone, currency and telephone defaults are typed installation configuration.
+- The editable workshop profile in Directus owns the live business name and contact details after first-run setup. PWA assets and logo selection still use the installation baseline until their dedicated configuration flow is implemented.
 - No deployment, production change or Directus write occurs without explicit authorization for that environment.
 - English and Ukrainian are present in the inherited interface. The long-term language set per installation remains an open product decision.
 - EUR, Irish phone normalization and `Europe/Dublin` are inherited operational assumptions that must be classified as installation defaults rather than universal Mendesk rules.
@@ -56,8 +57,10 @@ Each shop owns an independent installation and data boundary. Mendesk provides t
 ## Evidence on Hand
 
 - The functional baseline derives from the verified tracked tree of Koko Panel at commit `95f3ce624cee9815732fed991c21d63906f8c6b2`.
-- The imported baseline passes 210 test files with 1,401 tests and a Next.js production build.
+- The imported baseline passed 210 test files with 1,401 tests. The current merged state through PR #18 passes 228 test files with 1,468 tests and a Next.js production build.
 - The repository contains working domain, application, Directus adapter, PWA, printing, WhatsApp, appointment and statistics flows.
+- The first-run `/setup` flow, editable `/settings` profile and runtime workshop name are implemented against the installation's `shop_settings` singleton.
+- An isolated hosted test installation runs the real Mendesk frontend with its own Directus, PostgreSQL, files, users and fictional demonstration data. It is not the approved commercial production package.
 - There are no Mendesk customer testimonials, commercial claims, usage metrics or approved logo assets yet. Future presentation work must not fabricate them.
 
 ## Product Principles

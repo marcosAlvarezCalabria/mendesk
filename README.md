@@ -20,6 +20,8 @@ The complete repeatable shop onboarding, deployment, validation and rollback pro
 
 ## Current migration state
 
-Mendesk has an independent baseline, typed installation identity and configurable customer-facing store branding. The local demonstration runtime is intended for development only and is not a production deployment.
+Mendesk has an independent baseline, typed installation configuration, isolated Directus provisioning and deterministic fictional demo data. First login completes the workshop profile through `/setup`; staff can later edit the business name and contact details in `/settings`. The saved workshop name becomes the primary runtime identity in the authenticated panel, tickets and prepared WhatsApp messages, while the installation baseline remains the safe fallback.
+
+The repository's demo Compose package is suitable for local development and isolated test demonstrations. It is not yet the approved commercial production package for a paying client. Logo upload, PWA identity and a least-privilege kiosk credential remain separate follow-up work.
 
 See [docs/MIGRATION_PLAN.md](docs/MIGRATION_PLAN.md) for scope and sequencing.

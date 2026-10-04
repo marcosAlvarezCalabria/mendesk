@@ -35,6 +35,9 @@ Crear una ficha privada fuera de Git con estos valores:
 | Prefijo telefónico | `353` |
 | Email del administrador técnico | dirección privada |
 | Email de cada usuario del taller | dirección individual |
+| Email y teléfono públicos del taller | datos confirmados por el cliente |
+| Número de WhatsApp, si difiere | número confirmado por el cliente |
+| Dirección del taller, si se mostrará | dirección confirmada por el cliente |
 | Política de conservación y copias | decisión contractual |
 
 Confirmar también quién controla DNS, quién recibe avisos operativos y quién puede autorizar una restauración.
@@ -53,6 +56,7 @@ Sustituir siempre los marcadores antes de ejecutar una acción:
 <DIRECTUS_NETWORK>      red Docker exclusiva de la instalación
 <ADMIN_EMAIL>           administrador técnico de Directus
 <STAFF_EMAIL>           usuario individual del taller
+<KIOSK_TOKEN>           credencial técnica no administrativa y exclusiva de la instalación
 ```
 
 No pegar secretos en comandos que puedan quedar en el historial. Guardarlos en ficheros del servidor con permisos `0600` o introducirlos mediante un mecanismo de secretos aprobado.
@@ -136,6 +140,8 @@ El orden importa: auditar, aplicar y volver a auditar. Si el provisionador detec
 
 La política de aplicación no debe conceder administración de Directus ni acceso al Studio al personal del taller. Las capacidades necesarias se ejercen desde Mendesk.
 
+Crear además una credencial técnica independiente para `KIOSK_TOKEN` cuando la instalación vaya a usar el registro público del kiosco o mostrar el nombre guardado antes del login. Debe pertenecer a una política no administrativa y limitada a las operaciones necesarias para registrar la entrada de clientes y leer `shop_settings`. No usar `DIRECTUS_ADMIN_TOKEN`, no compartirla con personal del taller y no enviarla al navegador.
+
 ## 8. Crear usuarios
 
 Cada persona debe tener su propio usuario. No compartir una cuenta entre empleados en una instalación real.
@@ -198,9 +204,16 @@ MENDESK_STORE_DEFAULT_LOCALE=<idioma inicial>
 MENDESK_STORE_TIME_ZONE=<zona IANA>
 MENDESK_STORE_CURRENCY=<moneda>
 MENDESK_STORE_CALLING_CODE=<prefijo sin +>
+KIOSK_TOKEN=<credencial técnica dedicada>
 ```
 
-Verificar que el logo pertenece a esa tienda y que tickets, QR y WhatsApp no contienen marcas de otra instalación.
+Los valores `MENDESK_STORE_*` forman la identidad base de la instalación y permiten arrancar o degradar con seguridad si Directus no está disponible. No sustituyen el perfil editable del taller.
+
+Después del primer login, una instalación incompleta redirige a `/setup`. El responsable introduce el **nombre comercial del taller**, email, teléfono, WhatsApp opcional y dirección opcional. Mendesk guarda esos datos en el singleton `shop_settings`; no hay que editarlos manualmente en Directus. Más adelante el taller puede actualizarlos desde `/settings`.
+
+El nombre guardado se usa como identidad principal en el panel autenticado, tickets y mensajes preparados de WhatsApp. La pantalla pública de login y el kiosco pueden leerlo mediante `KIOSK_TOKEN`; si el token falta, login muestra el nombre base y el envío del kiosco queda deshabilitado. El nombre corto, manifiesto PWA, pantalla offline y logo continúan usando la identidad base hasta completar su flujo específico.
+
+Verificar que el nombre y logo pertenecen a esa tienda y que tickets, QR y WhatsApp no contienen marcas de otra instalación.
 
 La grafía oficial del fabricante está confirmada como **Incamdi**. La firma prevista es **“Powered by Mendesk · by Incamdi”**, discreta y solo dentro del panel. Su presencia visual debe implementarse y aprobarse por separado; no se añade automáticamente a comunicaciones dirigidas a clientes.
 
@@ -272,7 +285,12 @@ HTTP debe redirigir a HTTPS y HTTPS debe responder correctamente.
 Realizarla con un usuario sin permisos administrativos:
 
 - [ ] Login y logout funcionan por HTTPS.
-- [ ] La identidad principal es la tienda correcta en cabecera y PWA.
+- [ ] El primer login de una instalación incompleta redirige a `/setup`.
+- [ ] `/setup` guarda el nombre comercial y los datos de contacto en `shop_settings`.
+- [ ] `/settings` permite cambiar esos datos y el nombre actualizado aparece en la cabecera tras recargar.
+- [ ] La identidad principal es la tienda correcta en cabecera, tickets y mensajes preparados.
+- [ ] Login público y kiosco muestran la identidad guardada cuando `KIOSK_TOKEN` está configurado.
+- [ ] El nombre corto, logo, manifiesto PWA y pantalla offline coinciden con la identidad base aprobada.
 - [ ] Listar, buscar, crear y editar clientes.
 - [ ] Crear un encargo con varias prendas.
 - [ ] Registrar depósito y pago final.
@@ -321,7 +339,8 @@ Una copia que nunca se ha restaurado no se considera verificada. No probar resta
 5. Obtener el nuevo commit aprobado y reconstruir solo el frontend.
 6. Esperar a que el healthcheck sea correcto antes de recargar el proxy.
 7. Repetir la prueba de humo: HTTPS, login, Directus, lectura y una operación reversible.
-8. Si falla, volver al commit anterior y reconstruir con el mismo `deployment.env`.
+8. Si el cambio afecta a identidad, comprobar `/settings`, cabecera, ticket y WhatsApp sin modificar datos de clientes reales.
+9. Si falla, volver al commit anterior y reconstruir con el mismo `deployment.env`.
 
 Una actualización del frontend no debe borrar ni recrear los volúmenes de PostgreSQL o Directus.
 
@@ -337,7 +356,8 @@ Orden recomendado:
 6. Directus: contenedor saludable y logs sin errores repetidos.
 7. PostgreSQL: saludable, espacio disponible y conexiones normales.
 8. Permisos: usuario activo, rol correcto y contraseña válida.
-9. Configuración: dominio, zona horaria, moneda, prefijo, idiomas y logo de la tienda correcta.
+9. Configuración base: dominio, zona horaria, moneda, prefijo, idiomas, logo y presencia de la credencial técnica esperada, sin imprimir secretos.
+10. Perfil runtime: `shop_settings` contiene el nombre comercial y los datos de contacto esperados; `/setup` y `/settings` son las superficies normales para mantenerlos.
 
 No cambiar varias capas a la vez. Corregir una causa, verificar y documentar el resultado.
 
