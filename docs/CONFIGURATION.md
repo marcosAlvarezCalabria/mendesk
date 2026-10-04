@@ -26,8 +26,27 @@ Mendesk keeps product identity separate from store identity. Each deployed shop 
 
 No real environment file is committed. Deployment secrets and Directus connection details remain outside Git.
 
-When no installation values are present, the application uses the visibly fictional `Demo Atelier` profile. This keeps local builds and demonstrations functional while making a missing real-store configuration obvious.
+When no installation values are present, the application uses the visibly fictional `Demo Atelier` profile. This keeps local builds functional while making a missing real-store configuration obvious.
+
+## Runtime workshop profile
+
+The environment values above are the installation baseline. After a staff user signs in for the first time, `/setup` stores the editable workshop profile in the installation's Directus `shop_settings` singleton:
+
+- business or workshop name;
+- contact email;
+- contact telephone;
+- optional WhatsApp number;
+- optional workshop address;
+- setup completion time.
+
+The same fields can be maintained later in `/settings`. The saved workshop name becomes the primary name used by the authenticated shell, page metadata, tickets and prepared WhatsApp messages. If Directus is temporarily unavailable, Mendesk falls back to `MENDESK_STORE_NAME` instead of blocking the panel.
+
+Public pages have no staff session. They can load the saved workshop name only when the server has a valid `KIOSK_TOKEN` with the required installation-scoped permissions. Without it, login uses the baseline identity and kiosk registration is unavailable. Never use an administrator token for this value and never expose it to browser JavaScript.
+
+The current PWA manifest, short name, offline identity and logo path still come from the installation baseline. They are not changed by `/settings` yet.
 
 ## Demonstration installation
 
-The planned demo will use a dedicated Directus instance and fictional records only. Its configuration must use a neutral fictional shop identity until a real demonstration brand is approved. It must never point at Koko Atelier infrastructure, users, files or customer data.
+The hosted test demo uses a dedicated Directus instance and fictional records only. Its configuration must use a neutral fictional shop identity until a real demonstration brand is approved. It must never point at Koko Atelier infrastructure, users, files or customer data.
+
+The repository demo runtime remains a development/test package. Running it on an isolated test VPS does not make it the approved production package for a paying customer.
