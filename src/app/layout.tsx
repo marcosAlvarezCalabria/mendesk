@@ -9,6 +9,7 @@ import { dictionaries } from "@/i18n/dictionaries";
 import { getLocale } from "@/i18n/getLocale";
 import { t } from "@/i18n/t";
 import { productConfig } from "@/config/productConfig";
+import { storeConfig } from "@/config/currentStore";
 import { getCurrentStoreIdentity } from "@/composition/currentStoreIdentity";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -58,6 +59,7 @@ export default async function RootLayout({
         <ServiceWorkerRegister />
         <LegacyPinStorageCleanup />
         <AppShell
+          availableLocales={storeConfig.localization.locales}
           currentLocale={locale}
           identity={identity}
           labels={{

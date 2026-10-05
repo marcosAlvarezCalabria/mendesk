@@ -7,7 +7,14 @@ describe("overview locale formatting", () => {
   });
   it("uses EUR and real cents", () => {
     expect(formatOrdersMoney(1234, "en")).toBe("€12.34");
+    expect(formatOrdersMoney(1234, "es")).toContain("12,34");
     expect(formatOrdersMoney(1234, "uk")).toContain("12,34");
+  });
+  it("uses Spanish dates and plurals", () => {
+    expect(formatOrdersToday("2026-08-28T12:00:00Z", "es")).toMatch(/viernes/i);
+    expect(formatOrdersGarmentCount(1, "es")).toBe("1 prenda");
+    expect(formatOrdersGarmentCount(2, "es")).toBe("2 prendas");
+    expect(formatOrdersOverdueDays(2, "es")).toBe("2 días de retraso");
   });
   it.each([[1, "1 виріб"], [2, "2 вироби"], [5, "5 виробів"], [21, "21 виріб"]])("uses Ukrainian plural for %s", (count, text) => {
     expect(formatOrdersGarmentCount(count as number, "uk")).toBe(text);

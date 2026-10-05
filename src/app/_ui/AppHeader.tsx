@@ -10,6 +10,7 @@ import { dictionaries } from "@/i18n/dictionaries";
 import { getLocale } from "@/i18n/getLocale";
 import { t } from "@/i18n/t";
 import { getCurrentStoreIdentity } from "@/composition/currentStoreIdentity";
+import { storeConfig } from "@/config/currentStore";
 
 type AppHeaderProps = {
   variant?: "home" | "back";
@@ -51,7 +52,7 @@ export async function AppHeader({ variant = "home", title, subtitle, className, 
         </div>
 
         <div className="flex shrink-0 items-center gap-1.5">
-          <span className="md:hidden"><LocaleToggle currentLocale={locale} label={t(dict, "nav.language")} /></span>
+          <span className="md:hidden"><LocaleToggle availableLocales={storeConfig.localization.locales} currentLocale={locale} label={t(dict, "nav.language")} /></span>
           {mobileAction ?? (
             <span className="md:hidden"><HeaderUtilitiesMenu
                 labels={{ more: t(dict, "nav.more"), settings: t(dict, "nav.settings"), logout: t(dict, "nav.logOut") }}

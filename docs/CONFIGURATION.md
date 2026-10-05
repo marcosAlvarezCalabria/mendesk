@@ -18,7 +18,7 @@ Mendesk keeps product identity separate from store identity. Each deployed shop 
 | `MENDESK_STORE_LOGO_PATH` | Root-relative public logo path | `/store/logo.svg` |
 | `MENDESK_STORE_PANEL_URL` | Canonical panel URL used for deep links | `https://demo.example.com` |
 | `MENDESK_STORE_REVIEW_URL` | Optional public review URL | `https://example.com/review` |
-| `MENDESK_STORE_LOCALES` | Enabled locales currently implemented by the UI | `en,uk` |
+| `MENDESK_STORE_LOCALES` | Enabled locales currently implemented by the UI | `en,es,uk` |
 | `MENDESK_STORE_DEFAULT_LOCALE` | Default locale from the enabled set | `en` |
 | `MENDESK_STORE_TIME_ZONE` | IANA workshop time zone | `Europe/Dublin` |
 | `MENDESK_STORE_CURRENCY` | ISO-style uppercase currency code | `EUR` |

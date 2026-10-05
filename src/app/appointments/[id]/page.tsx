@@ -15,7 +15,7 @@ import type { AppointmentStatus } from "@/domain/values/AppointmentStatus";
 import { getSessionToken } from "@/infrastructure/auth/sessionCookie";
 import { dictionaries } from "@/i18n/dictionaries";
 import { getLocale } from "@/i18n/getLocale";
-import type { Locale } from "@/i18n/locale";
+import { toIntlLocale, type Locale } from "@/i18n/locale";
 import { formatDublinDateTime } from "@/domain/time/dublinDateTime";
 
 type Props = { params: Promise<{ id: string }>; searchParams?: Promise<{ returnTo?: string | string[] }> };
@@ -148,7 +148,7 @@ async function getAppointmentOrNotFound(token: string, id: string, currentPath: 
 }
 
 function formatAppointmentDateTime(date: Date, locale: Locale): string {
-  return new Intl.DateTimeFormat(locale === "uk" ? "uk-UA" : "en-IE", {
+  return new Intl.DateTimeFormat(toIntlLocale(locale), {
     weekday: "long",
     day: "numeric",
     month: "long",

@@ -83,7 +83,11 @@ export default async function NewOrderPage({ searchParams }: NewOrderPageProps) 
           total: t(dict, "orders.new.flow.total"),
           noNotes: t(dict, "orders.new.flow.noNotes"),
           noMeasurements: t(dict, "orders.new.flow.noMeasurements"),
-          reconcileOrder: locale === "uk" ? "Перевірити Directus і продовжити" : "Check Directus and continue",
+          reconcileOrder: {
+            en: "Check Directus and continue",
+            es: "Comprobar Directus y continuar",
+            uk: "Перевірити Directus і продовжити",
+          }[locale],
           noPhoto: t(dict, "orders.new.flow.noPhoto"),
           openCreatedOrder: t(dict, "orders.new.flow.openCreatedOrder"),
           clientError: t(dict, "orders.new.flow.clientError"),

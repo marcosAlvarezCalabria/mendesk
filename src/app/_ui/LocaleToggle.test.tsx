@@ -16,7 +16,8 @@ describe("LocaleToggle", () => {
   it("submits each locale as a server action without client-side navigation", () => {
     const html = renderToStaticMarkup(<LocaleToggle currentLocale="en" label="Language" />);
 
-    expect(html.match(/<form/g)).toHaveLength(2);
+    expect(html.match(/<form/g)).toHaveLength(3);
+    expect(html).toContain(">ES</button>");
     expect(html).not.toContain("onClick");
   });
 
@@ -28,5 +29,13 @@ describe("LocaleToggle", () => {
     expect(html).not.toContain("md:min-w-11");
     expect(html).toContain("min-h-11 min-w-11 rounded-full");
     expect(html).not.toContain("lg:min-w-0");
+  });
+
+  it("only renders languages enabled for the installation", () => {
+    const html = renderToStaticMarkup(<LocaleToggle availableLocales={["es"]} currentLocale="es" label="Idioma" />);
+
+    expect(html).toContain(">ES</button>");
+    expect(html).not.toContain(">EN</button>");
+    expect(html).not.toContain(">УКР</button>");
   });
 });

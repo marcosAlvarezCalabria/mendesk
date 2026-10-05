@@ -1,34 +1,15 @@
 import type { Locale } from "@/i18n/locale";
+import { toIntlLocale } from "@/i18n/locale";
 
-const shortDateFormatters: Record<Locale, Intl.DateTimeFormat> = {
-  en: new Intl.DateTimeFormat("en-IE", {
-    day: "2-digit",
-    month: "short",
-    year: "numeric",
-  }),
-  uk: new Intl.DateTimeFormat("uk-UA", {
-    day: "2-digit",
-    month: "short",
-    year: "numeric",
-  }),
-};
+const shortDateFormatters = makeFormatters({ day: "2-digit", month: "short", year: "numeric" });
 
-const shortDateTimeFormatters: Record<Locale, Intl.DateTimeFormat> = {
-  en: new Intl.DateTimeFormat("en-IE", {
-    day: "2-digit",
-    month: "short",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-  }),
-  uk: new Intl.DateTimeFormat("uk-UA", {
-    day: "2-digit",
-    month: "short",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-  }),
-};
+const shortDateTimeFormatters = makeFormatters({
+  day: "2-digit",
+  month: "short",
+  year: "numeric",
+  hour: "2-digit",
+  minute: "2-digit",
+});
 
 export function formatShortDate(date: Date, locale: Locale): string {
   return shortDateFormatters[locale].format(date);
@@ -36,4 +17,12 @@ export function formatShortDate(date: Date, locale: Locale): string {
 
 export function formatShortDateTime(date: Date, locale: Locale): string {
   return shortDateTimeFormatters[locale].format(date);
+}
+
+function makeFormatters(options: Intl.DateTimeFormatOptions): Record<Locale, Intl.DateTimeFormat> {
+  return {
+    en: new Intl.DateTimeFormat(toIntlLocale("en"), options),
+    es: new Intl.DateTimeFormat(toIntlLocale("es"), options),
+    uk: new Intl.DateTimeFormat(toIntlLocale("uk"), options),
+  };
 }

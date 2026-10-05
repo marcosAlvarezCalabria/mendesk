@@ -40,9 +40,11 @@ export default async function OrderTicketsPage({ params, searchParams }: Tickets
       qrSvg: await QRCode.toString(ticket.deepLinkUrl, { type: "svg", margin: 1, width: 160 }),
     })),
   );
-  const moneyLabels = locale === "uk"
-    ? { price: "Ціна", deposit: "Сплачений завдаток", outstanding: "До сплати" }
-    : { price: "Price", deposit: "Deposit paid", outstanding: "Outstanding" };
+  const moneyLabels = {
+    en: { price: "Price", deposit: "Deposit paid", outstanding: "Outstanding" },
+    es: { price: "Precio", deposit: "Señal pagada", outstanding: "Pendiente" },
+    uk: { price: "Ціна", deposit: "Сплачений завдаток", outstanding: "До сплати" },
+  }[locale];
 
   return (
     <main className="min-h-screen bg-background px-3 py-4 text-on-surface sm:px-5 sm:py-6 print:bg-white print:px-0 print:py-0">

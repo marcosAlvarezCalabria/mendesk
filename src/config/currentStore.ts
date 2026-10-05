@@ -7,7 +7,7 @@ const demoEnvironment: Required<StoreConfigEnvironment> = {
   MENDESK_STORE_LOGO_PATH: "/store/demo-atelier-mark.svg",
   MENDESK_STORE_PANEL_URL: "http://localhost:3000",
   MENDESK_STORE_REVIEW_URL: "",
-  MENDESK_STORE_LOCALES: "en,uk",
+  MENDESK_STORE_LOCALES: "en,es,uk",
   MENDESK_STORE_DEFAULT_LOCALE: "en",
   MENDESK_STORE_TIME_ZONE: "Europe/Dublin",
   MENDESK_STORE_CURRENCY: "EUR",

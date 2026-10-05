@@ -16,6 +16,13 @@ describe("localized date formatting", () => {
     expect(formatted).not.toContain("Aug");
   });
 
+  it("uses Spanish month names for Spanish", () => {
+    const formatted = formatShortDate(sample, "es");
+
+    expect(formatted).toMatch(/ago/i);
+    expect(formatted).not.toContain("Aug");
+  });
+
   it("includes the localized time for appointments", () => {
     expect(formatShortDateTime(sample, "uk")).toMatch(/14:35|16:35|15:35/);
   });

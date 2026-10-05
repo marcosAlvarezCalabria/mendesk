@@ -5,19 +5,23 @@ import type { Locale } from "@/i18n/locale";
 import { setLocale } from "@/i18n/setLocale";
 
 type LocaleToggleProps = {
+  availableLocales?: readonly Locale[];
   currentLocale: Locale;
   label: string;
 };
 
 const locales: readonly { value: Locale; label: string }[] = [
   { value: "en", label: "EN" },
+  { value: "es", label: "ES" },
   { value: "uk", label: "УКР" },
 ];
 
-export function LocaleToggle({ currentLocale, label }: LocaleToggleProps) {
+export function LocaleToggle({ availableLocales = locales.map(({ value }) => value), currentLocale, label }: LocaleToggleProps) {
+  const visibleLocales = locales.filter(({ value }) => availableLocales.includes(value));
+
   return (
     <div aria-label={label} className="flex rounded-full border border-outline-variant bg-surface-container-lowest p-0.5 md:flex-col md:rounded-xl lg:flex-row lg:rounded-full" role="group">
-      {locales.map((locale) => (
+      {visibleLocales.map((locale) => (
         <form action={setLocale.bind(null, locale.value)} key={locale.value}>
           <button
             aria-pressed={locale.value === currentLocale}
