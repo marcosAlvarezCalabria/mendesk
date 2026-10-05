@@ -39,7 +39,7 @@ import {
   isNewOrderLeaveGuardActive,
 } from "@/app/orders/new/newOrderUnsavedGuard";
 import { PhoneNumber } from "@/domain/values/PhoneNumber";
-import type { Locale } from "@/i18n/locale";
+import { toIntlLocale, type Locale } from "@/i18n/locale";
 
 const initialState: NewOrderFormState = { status: "idle", error: null, errorCode: null };
 
@@ -964,11 +964,11 @@ function stringEntries(values: FormDataEntryValue[]): string[] {
 }
 
 function formatDate(value: string, locale: Locale): string {
-  return new Intl.DateTimeFormat(locale === "uk" ? "uk-UA" : "en-IE", { dateStyle: "long", timeZone: "UTC" }).format(new Date(`${value}T00:00:00Z`));
+  return new Intl.DateTimeFormat(toIntlLocale(locale), { dateStyle: "long", timeZone: "UTC" }).format(new Date(`${value}T00:00:00Z`));
 }
 
 function formatMoney(value: number, locale: Locale): string {
-  return new Intl.NumberFormat(locale === "uk" ? "uk-UA" : "en-IE", { style: "currency", currency: "EUR" }).format(value);
+  return new Intl.NumberFormat(toIntlLocale(locale), { style: "currency", currency: "EUR" }).format(value);
 }
 
 function localizeActionError(state: NewOrderFormState, texts: NewOrderFormTexts): string | null {

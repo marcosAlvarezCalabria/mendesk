@@ -4,10 +4,11 @@ import { refresh } from "next/cache";
 import { cookies } from "next/headers";
 
 import { technicalKeys } from "@/config/technicalKeys";
+import { storeConfig } from "@/config/currentStore";
 import { isValidLocale } from "@/i18n/locale";
 
 export async function setLocale(locale: string): Promise<void> {
-  if (!isValidLocale(locale)) {
+  if (!isValidLocale(locale) || !storeConfig.localization.locales.includes(locale)) {
     return;
   }
 

@@ -1,5 +1,5 @@
 import type { IncomeBucket, IncomeBucketSize } from "@/application/useCases/GetIncomeStats";
-import type { Locale } from "@/i18n/locale";
+import { toIntlLocale, type Locale } from "@/i18n/locale";
 
 type MoneyChartProps = {
   buckets: IncomeBucket[];
@@ -86,9 +86,9 @@ export function StatusChart({ values, labels, emptyLabel }: { values: Record<str
 
 function formatBucket(key: string, bucket: IncomeBucketSize, locale: Locale): string {
   if (bucket === "hour") return `${key.slice(-2)}:00`;
-  return new Intl.DateTimeFormat(locale === "uk" ? "uk-UA" : "en-IE", { day: "numeric", month: "short", timeZone: "UTC" }).format(new Date(`${key}T00:00:00Z`));
+  return new Intl.DateTimeFormat(toIntlLocale(locale), { day: "numeric", month: "short", timeZone: "UTC" }).format(new Date(`${key}T00:00:00Z`));
 }
 
 function formatCents(cents: number, locale: Locale): string {
-  return new Intl.NumberFormat(locale === "uk" ? "uk-UA" : "en-IE", { style: "currency", currency: "EUR", minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(cents / 100);
+  return new Intl.NumberFormat(toIntlLocale(locale), { style: "currency", currency: "EUR", minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(cents / 100);
 }

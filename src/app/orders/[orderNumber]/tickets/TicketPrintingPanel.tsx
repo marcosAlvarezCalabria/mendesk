@@ -60,6 +60,29 @@ const copy = {
     empty: "There are no garment tickets to print.",
     printable: "Printable garment tickets",
   },
+  es: {
+    title: "Imprimir etiquetas de prendas",
+    back: "Volver al encargo",
+    queue: "Cola de impresión",
+    selected: "seleccionadas",
+    printSelected: "Imprimir seleccionadas",
+    printOne: "Imprimir una",
+    browser: "Imprimir desde el navegador",
+    notConnected: "Sin conexión",
+    connecting: "Conectando…",
+    ready: "Impresora térmica preparada",
+    printing: "Imprimiendo",
+    of: "de",
+    unsupported: "Bluetooth no es compatible. Usa la impresión desde el navegador.",
+    cancelled: "Se canceló la selección de impresora.",
+    failed: "La impresora se desconectó. Reintenta las etiquetas restantes.",
+    success: "Etiquetas impresas",
+    error: "Impresión detenida",
+    retry: "Reintentar restantes",
+    none: "Selecciona al menos una prenda.",
+    empty: "No hay etiquetas de prendas para imprimir.",
+    printable: "Etiquetas de prendas listas para imprimir",
+  },
   uk: {
     title: "Друк квитанцій для виробів",
     back: "Назад до замовлення",
@@ -360,9 +383,9 @@ function TicketRow({ label, value }: { label: string; value: string }) {
 
 function formatAlterationLabel(value: TicketData["alterationType"], locale: Locale): string {
   const labels: Record<TicketData["alterationType"], Record<Locale, string>> = {
-    hem: { en: "Hem", uk: "Підгин" }, waist: { en: "Waist", uk: "Талія" },
-    zipper: { en: "Zipper", uk: "Блискавка" }, sleeves: { en: "Sleeves", uk: "Рукави" },
-    take_in: { en: "Take in", uk: "Звуження" }, other: { en: "Other", uk: "Інше" },
+    hem: { en: "Hem", es: "Bajo", uk: "Підгин" }, waist: { en: "Waist", es: "Cintura", uk: "Талія" },
+    zipper: { en: "Zipper", es: "Cremallera", uk: "Блискавка" }, sleeves: { en: "Sleeves", es: "Mangas", uk: "Рукави" },
+    take_in: { en: "Take in", es: "Estrechar", uk: "Звуження" }, other: { en: "Other", es: "Otro", uk: "Інше" },
   };
   return labels[value][locale];
 }

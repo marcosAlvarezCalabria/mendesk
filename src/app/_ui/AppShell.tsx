@@ -27,6 +27,7 @@ type AppShellLabels = {
 };
 
 type AppShellProps = {
+  availableLocales?: readonly Locale[];
   children: ReactNode;
   currentLocale: Locale;
   identity: StoreIdentity;
@@ -41,7 +42,7 @@ type NavigationLink = {
   label: string;
 };
 
-export function AppShell({ children, currentLocale, identity, labels, logoutAction }: AppShellProps) {
+export function AppShell({ availableLocales, children, currentLocale, identity, labels, logoutAction }: AppShellProps) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const newOrderHref = buildNewOrderHref(pathname, searchParams.toString());
@@ -55,7 +56,7 @@ export function AppShell({ children, currentLocale, identity, labels, logoutActi
   return (
     <div className="min-h-screen w-full max-w-full overflow-x-hidden overflow-x-clip bg-background md:pl-20 lg:pl-60 print:pl-0">
     <OrderSyncProvider locale={currentLocale}>
-      <DesktopNavigation currentLocale={currentLocale} identity={identity} labels={labels} logoutAction={logoutAction} newOrderHref={newOrderHref} pathname={pathname} />
+      <DesktopNavigation availableLocales={availableLocales} currentLocale={currentLocale} identity={identity} labels={labels} logoutAction={logoutAction} newOrderHref={newOrderHref} pathname={pathname} />
       <div className={cx("min-w-0 max-w-full overflow-x-hidden overflow-x-clip", showMobileNavigation ? "pb-[calc(4.25rem+var(--mobile-navigation-safe-area))] md:pb-0 print:pb-0" : undefined)}>{children}</div>
       {showMobileNavigation ? <MobileNavigation labels={labels} newOrderHref={newOrderHref} pathname={pathname} /> : null}
     </OrderSyncProvider>
@@ -64,6 +65,7 @@ export function AppShell({ children, currentLocale, identity, labels, logoutActi
 }
 
 function DesktopNavigation({
+  availableLocales,
   currentLocale,
   identity,
   labels,
@@ -129,7 +131,7 @@ function DesktopNavigation({
           <Icon name="settings" />
           <span className="w-full min-w-0 break-words whitespace-normal text-center leading-tight lg:truncate lg:text-left lg:leading-normal">{labels.settings}</span>
         </Link>
-        <LocaleToggle currentLocale={currentLocale} label={labels.language} />
+        <LocaleToggle availableLocales={availableLocales} currentLocale={currentLocale} label={labels.language} />
         <form className="w-full" action={async () => {
           try { clearClientRegistrationRecovery(window.sessionStorage); } catch { /* Logout must remain available when storage is blocked. */ }
           await logoutAction();

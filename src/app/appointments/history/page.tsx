@@ -27,7 +27,7 @@ import { isAuthError } from "@/infrastructure/auth/authError";
 import { getSessionToken } from "@/infrastructure/auth/sessionCookie";
 import { dictionaries } from "@/i18n/dictionaries";
 import { getLocale } from "@/i18n/getLocale";
-import type { Locale } from "@/i18n/locale";
+import { toIntlLocale, type Locale } from "@/i18n/locale";
 import { t } from "@/i18n/t";
 
 type Props = { searchParams: Promise<Record<string, string | string[] | undefined>> };
@@ -158,9 +158,9 @@ function HistoryMessage({ icon, message, actionHref, actionLabel }: { icon: stri
 }
 
 function formatTime(date: Date, locale: Locale): string {
-  return new Intl.DateTimeFormat(locale === "uk" ? "uk-UA" : "en-IE", { hour: "2-digit", minute: "2-digit", hour12: false, timeZone: "Europe/Dublin" }).format(date);
+  return new Intl.DateTimeFormat(toIntlLocale(locale), { hour: "2-digit", minute: "2-digit", hour12: false, timeZone: "Europe/Dublin" }).format(date);
 }
 
 function formatDay(date: Date, locale: Locale): string {
-  return new Intl.DateTimeFormat(locale === "uk" ? "uk-UA" : "en-IE", { weekday: "short", day: "numeric", month: "short", timeZone: "Europe/Dublin" }).format(date);
+  return new Intl.DateTimeFormat(toIntlLocale(locale), { weekday: "short", day: "numeric", month: "short", timeZone: "Europe/Dublin" }).format(date);
 }

@@ -28,7 +28,7 @@ Crear una ficha privada fuera de Git con estos valores:
 | Logo aprobado | `/store/demo-atelier-mark.svg` |
 | Dominio del panel | `panel.example.com` |
 | URL de reseñas, si existe | `https://example.com/review` |
-| Idiomas disponibles | `en,uk` |
+| Idiomas disponibles | `en,es,uk` |
 | Idioma inicial | `en` |
 | Zona horaria | `Europe/Dublin` |
 | Moneda | `EUR` |

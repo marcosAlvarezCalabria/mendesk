@@ -14,7 +14,7 @@ import type { OrderStatusValue } from "@/domain/values/OrderStatus";
 import { getSessionToken } from "@/infrastructure/auth/sessionCookie";
 import { dictionaries } from "@/i18n/dictionaries";
 import { getLocale } from "@/i18n/getLocale";
-import type { Locale } from "@/i18n/locale";
+import { toIntlLocale, type Locale } from "@/i18n/locale";
 import { t } from "@/i18n/t";
 
 type AppointmentsPageProps = { searchParams: Promise<Record<string, string | string[] | undefined>> };
@@ -141,18 +141,18 @@ function AppointmentRow({ appointment, locale, divided, openLabel, orderLabel, o
 }
 
 function formatTime(date: Date, locale: Locale): string {
-  return new Intl.DateTimeFormat(locale === "uk" ? "uk-UA" : "en-IE", { hour: "2-digit", minute: "2-digit", hour12: false, timeZone: "Europe/Dublin" }).format(date);
+  return new Intl.DateTimeFormat(toIntlLocale(locale), { hour: "2-digit", minute: "2-digit", hour12: false, timeZone: "Europe/Dublin" }).format(date);
 }
 
 function formatDay(date: Date, locale: Locale): string {
-  return new Intl.DateTimeFormat(locale === "uk" ? "uk-UA" : "en-IE", { weekday: "long", day: "numeric", month: "long", timeZone: "Europe/Dublin" }).format(date);
+  return new Intl.DateTimeFormat(toIntlLocale(locale), { weekday: "long", day: "numeric", month: "long", timeZone: "Europe/Dublin" }).format(date);
 }
 
 function formatWeekTitle(week: AppointmentWeek, locale: Locale): string {
-  return new Intl.DateTimeFormat(locale === "uk" ? "uk-UA" : "en-IE", { month: "long", year: "numeric", timeZone: "Europe/Dublin" }).format(week.start);
+  return new Intl.DateTimeFormat(toIntlLocale(locale), { month: "long", year: "numeric", timeZone: "Europe/Dublin" }).format(week.start);
 }
 
 function formatWeekRange(week: AppointmentWeek, locale: Locale): string {
-  const formatter = new Intl.DateTimeFormat(locale === "uk" ? "uk-UA" : "en-IE", { day: "numeric", month: "short", timeZone: "Europe/Dublin" });
+  const formatter = new Intl.DateTimeFormat(toIntlLocale(locale), { day: "numeric", month: "short", timeZone: "Europe/Dublin" });
   return `${formatter.format(week.visibleFrom)} – ${formatter.format(new Date(week.end.getTime() - 1))}`;
 }

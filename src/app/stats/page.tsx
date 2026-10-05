@@ -19,7 +19,7 @@ import { makeStatsProvider } from "@/composition/directus";
 import { getSessionToken } from "@/infrastructure/auth/sessionCookie";
 import { dictionaries } from "@/i18n/dictionaries";
 import { getLocale } from "@/i18n/getLocale";
-import type { Locale } from "@/i18n/locale";
+import { toIntlLocale, type Locale } from "@/i18n/locale";
 import { t } from "@/i18n/t";
 
 type StatsPageProps = { searchParams: Promise<{ preset?: string | string[]; from?: string | string[]; to?: string | string[] }> };
@@ -162,11 +162,11 @@ function moreHref(from: string | undefined, to: string | undefined): string {
 function readParam(value: string | string[] | undefined): string | undefined { return Array.isArray(value) ? value[0] : value; }
 
 function formatMoney(value: number, locale: Locale): string {
-  return new Intl.NumberFormat(locale === "uk" ? "uk-UA" : "en-IE", { style: "currency", currency: "EUR", minimumFractionDigits: 2 }).format(value);
+  return new Intl.NumberFormat(toIntlLocale(locale), { style: "currency", currency: "EUR", minimumFractionDigits: 2 }).format(value);
 }
 
 function formatDublinDate(value: Date, locale: Locale): string {
-  return new Intl.DateTimeFormat(locale === "uk" ? "uk-UA" : "en-IE", { day: "numeric", month: "short", timeZone: "Europe/Dublin" }).format(value);
+  return new Intl.DateTimeFormat(toIntlLocale(locale), { day: "numeric", month: "short", timeZone: "Europe/Dublin" }).format(value);
 }
 
 function localInputDate(value: Date): string {
@@ -175,6 +175,10 @@ function localInputDate(value: Date): string {
 }
 
 function bucketLabel(bucket: "hour" | "day" | "week", locale: Locale): string {
-  const labels = locale === "uk" ? { hour: "за годинами", day: "за днями", week: "за тижнями" } : { hour: "by hour", day: "by day", week: "by week" };
-  return labels[bucket];
+  const labels: Record<Locale, Record<"hour" | "day" | "week", string>> = {
+    en: { hour: "by hour", day: "by day", week: "by week" },
+    es: { hour: "por hora", day: "por día", week: "por semana" },
+    uk: { hour: "за годинами", day: "за днями", week: "за тижнями" },
+  };
+  return labels[locale][bucket];
 }
